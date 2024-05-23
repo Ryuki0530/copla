@@ -1,0 +1,32 @@
+.tag{
+    font-size: 25px;
+    color: blue;
+    text-decoration: none;
+}
+
+.tag:hover{
+    color: #1e90ff;
+}
+
+.trends{
+    padding-top: 25px;
+}
+
+.trend{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border: solid 2px;
+    border-radius: 50%;
+    border-color: black;
+    text-align:center;
+    line-height: 100px;
+    text-decoration: none;
+    color: blue;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.trend:hover{
+    color: #1e90ff;
+}
