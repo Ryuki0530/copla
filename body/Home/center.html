@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="./css/stylesheet2.css">
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body bgcolor="white">
+<div class="top">
+    <div class="search">
+        <input type="search" id="site-search" name="q"/>
+        <button type="submit" class="bt-sch"><img src=".././resource/検索.png" width="15"></button>
+    </div>
+</div>
+<div id="postsContainer">
+    <!-- ここに投稿内容が表示されます -->
+</div>
+<div id="popupForm" class="popup-form">
+    <div class="popup-form-content">
+        <span id="closeFormButton" class="close">&times;</span>
+        <form id="postForm"> 
+            <textarea id="comment" class="commentTextArea" name="comment" style="width: 100%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
+            <br><br>
+            <input class="submitButton" type="submit" value="投稿" name="submitButton">
+        </form>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../scripts/postPop.js"></script>
+<script>
+    const popupForm = document.getElementById('popupForm');
+    
+    function getPosts() {
+        $.ajax({
+            url: "../../apk/getPosts.php",
+            type: "GET",
+            success: function (response) {
+                $("#postsContainer").html(response);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        // ページ読み込み時に投稿内容を取得して表示
+        getPosts();
+
+        // フォームが送信されたときの処理
+        $("#postForm").submit(function (event) {
+            event.preventDefault(); // デフォルトのフォーム送信をキャンセル
+
+            $.ajax({
+                url: "../../apk/makePost.php",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    $("#comment").val("");
+                    $("#postsContainer").html(response);
+                    popupForm.style.display = 'none';
+                    getPosts(); // 投稿内容を取得し直す
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
