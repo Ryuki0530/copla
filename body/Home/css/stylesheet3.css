@@ -1,3 +1,7 @@
+body {
+    background: transparent;
+}
+
 .tag{
     font-size: 25px;
     color: blue;

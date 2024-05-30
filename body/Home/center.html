@@ -21,7 +21,16 @@
         <form id="postForm"> 
             <textarea id="comment" class="commentTextArea" name="comment" style="width: 100%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
             <br><br>
-            <input class="submitButton" type="submit" value="投稿" name="submitButton">
+            <label for="category">投稿カテゴリーを選択:</label>
+            <select id="category" name="category" style="font-size: 140%">
+                <option value="2">授業</option>
+                <option value="3">部活</option>
+                <option value="4">研究室</option>
+                <option value="5">就活</option>
+                <option value="1">その他</option>
+                <option value="6">イベント</option>
+            </select><br>
+            <input class="submitButton" type="submit" value="投稿" name="submitButton" style="font-size: 140%">
         </form>
     </div>
 </div>
@@ -41,7 +50,6 @@
     }
 
     $(document).ready(function () {
-        // ページ読み込み時に投稿内容を取得して表示
         getPosts();
 
         // フォームが送信されたときの処理

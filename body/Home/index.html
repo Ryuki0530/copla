@@ -1,12 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
   <head>
+    <link rel="stylesheet" href="./css/homeBack.css">
     <meta charset="utf-8">
     <title>Copla</title>
+    
   </head>
-  <frameset cols="20%,50%,*">
-    <frame src="left.html" name="leftFrame">
-    <frame src="center.html" name="centerFrame">
-    <frame src="right.html">
-  </frameset>
+
+   <iframe id="left" class="frame" src="leftCtrl.php" style="background: transparent;" allowtransparency="true" name="leftFrame"></iframe>
+    <iframe id="center" class="frame" src="center.html" name="centerFrame"></iframe>
+    <iframe id="right" class="frame" src="right.html" style="background: transparent;"allowtransparency="true" ></iframe>
+    
 </html>

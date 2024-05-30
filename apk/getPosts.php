@@ -1,10 +1,10 @@
 <?php
 // デバッグ用エラーレポートを有効にする
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
-// パスの修正
+
 require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
@@ -31,7 +31,25 @@ function getPosts(){
 
         // 投稿内容をHTML形式で返す
         foreach ($postArray as $Post) {
-            echo '<article><hr><div class="wrapper"><div class="nameArea"><p class="username">' . $Post["idName"] . '</p><font size="2px"><time>' . $Post["datetime"] . '</time></font></div><p class="comment">' . $Post["body"] . '</p></div><hr></article>';
+            echo '
+            <article>
+                <div class="wrapper">
+                    <div class="nameArea">
+                        <p class="username">
+                            ' . $Post["idName"] . '
+                        </p>
+                        <font size="2px">
+                            <time>'
+                            . $Post["datetime"] .
+                            '</time>
+                        </font>
+                    </div>
+                    <p class="comment">
+                        '.$Post["body"] .'
+                    </p>
+                </div>
+                <br>
+            </article>';
         }
 
     } catch (Exception $e) {

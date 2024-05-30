@@ -1,6 +1,16 @@
+body {
+    background: transparent;
+}
+
 .content{
     text-align: center;
     padding-top: 20px;
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .content-wrapper{
@@ -30,3 +40,26 @@
 .btn:hover{
     color: #808080;
 }
+
+button{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #00bfff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 5px #00008b;
+  }
+  
+  button:hover {
+    background-color: #87cefa;
+  }
+
+  button:active {
+    box-shadow: none;
+    top: 5px;
+    position: relative;
+  }
+
