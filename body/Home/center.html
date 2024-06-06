@@ -69,6 +69,27 @@
             });
         });
     });
+
+    $(document).ready(function () {
+    getPosts();
+
+    
+
+    $(document).on('submit', '.replyForm', function (event) {
+        event.preventDefault();
+        var postID = $(this).data('post-id');
+        var formData = $(this).serialize() + '&postID=' + postID;
+        $.ajax({
+            url: "../../apk/makeReply.php",
+            type: "POST",
+            data: formData,
+            success: function (response) {
+                getPosts();
+            }
+        });
+    });
+});
+
 </script>
 </body>
 </html>
