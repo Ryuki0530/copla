@@ -50,25 +50,64 @@
     }
 
     $(document).ready(function () {
-        getPosts();
+    getPosts();
 
-        // フォームが送信されたときの処理
-        $("#postForm").submit(function (event) {
-            event.preventDefault(); // デフォルトのフォーム送信をキャンセル
-
-            $.ajax({
-                url: "../../apk/makePost.php",
-                type: "POST",
-                data: $(this).serialize(),
-                success: function (response) {
-                    $("#comment").val("");
-                    $("#postsContainer").html(response);
-                    popupForm.style.display = 'none';
-                    getPosts(); // 投稿内容を取得し直す
-                }
-            });
+    $("#postForm").submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "../../apk/makePost.php",
+            type: "POST",
+            data: $(this).serialize(),
+            success: function (response) {
+                $("#comment").val("");
+                $("#postsContainer").html(response);
+                popupForm.style.display = 'none';
+                getPosts();
+            }
         });
     });
+
+    $(document).on('submit', '.replyForm', function (event) {
+        event.preventDefault();
+        var postID = $(this).data('post-id');
+        var formData = $(this).serialize() + '&postID=' + postID;
+        $.ajax({
+            url: "../../apk/makeReply.php",
+            type: "POST",
+            data: formData,
+            success: function (response) {
+                getPosts();
+            }
+        });
+    });
+
+    $(document).on('click', '.likePostButton', function (event) {
+        event.preventDefault();
+        var postID = $(this).data('post-id');
+        $.ajax({
+            url: "../../apk/likePost.php",
+            type: "POST",
+            data: { postID: postID },
+            success: function (response) {
+                getPosts();
+            }
+        });
+    });
+
+    $(document).on('click', '.likeReplyButton', function (event) {
+        event.preventDefault();
+        var replyID = $(this).data('reply-id');
+        $.ajax({
+            url: "../../apk/likeReply.php",
+            type: "POST",
+            data: { repID: replyID },
+            success: function (response) {
+                getPosts();
+            }
+        });
+    });
+});
+
 
     $(document).ready(function () {
     getPosts();
