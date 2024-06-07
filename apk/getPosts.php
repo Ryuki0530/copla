@@ -29,7 +29,7 @@ function getPosts() {
             $Post['likeCount'] = $likeCount;
 
             // 各投稿に対する返信を取得
-            $sql4 = "SELECT `repID`, `userID`, `body`, `datetime` FROM `replies` WHERE `postID` = :postID ORDER BY `datetime` DESC;";
+            $sql4 = "SELECT `repID`, `userID`, `body`, `datetime` FROM `replies` WHERE `postID` = :postID ORDER BY `datetime` ASC;";
             $replyStmt = $pdo->prepare($sql4);
             $replyStmt->execute(['postID' => $postID]);
             $replies = $replyStmt->fetchAll(PDO::FETCH_ASSOC);
