@@ -3,11 +3,12 @@ session_start();
 require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
+session_regenerate_id(true);
 
 function makeTubuyaki(){
     global $pdo;
     $userID=$_SESSION['userID'];
-    $genre=1;
+    $genre=trim($_POST["category"]);
     $comment = trim($_POST["comment"]);
     
     if (empty($comment)) {
