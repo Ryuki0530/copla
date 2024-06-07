@@ -4,6 +4,7 @@ require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
 function likePost() {
+    echo"いいね受け取った";
     global $pdo;
     $userID = $_SESSION['userID'];
     $postID = $_POST['postID'];
@@ -35,6 +36,6 @@ function likePost() {
 if (isset($_SESSION["userID"])) {
     likePost();
 } else {
-    echo "You must be logged in to like a post.";
+    echo "ログインしてください。";
 }
 ?>

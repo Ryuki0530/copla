@@ -38,31 +38,67 @@
 <script src="../scripts/postPop.js"></script>
 <script>
     const popupForm = document.getElementById('popupForm');
-    
-    function getPosts() {
-        $.ajax({
-            url: "../../apk/getPosts.php",
-            type: "GET",
-            success: function (response) {
-                $("#postsContainer").html(response);
-            }
-        });
-    }
 
-    $(document).ready(function () {
+async function likePost(postID) {
+    try {
+        let response = await $.ajax({
+            url: "../../apk/likePost.php",
+            type: "POST",
+            data: { postID: postID }
+        });
+        console.log(response);
+        getPosts();
+    } catch (error) {
+        console.error("Error liking post:", error);
+    }
+}
+
+async function likeReply(replyID) {
+    try {
+        let response = await $.ajax({
+            url: "../../apk/likeReply.php",
+            type: "POST",
+
+            data: { repID: replyID }
+        });
+        console.log(response);
+        getPosts();
+    } catch (error) {
+        console.error("Error liking reply:", error);
+    }
+}
+
+function getPosts() {
+    $.ajax({
+        url: "../../apk/getPosts.php",
+        type: "GET",
+        success: function (response) {
+            $("#postsContainer").html(response);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Error getting posts:", textStatus, errorThrown);
+        }
+    });
+}
+
+$(document).ready(function () {
     getPosts();
 
+    // フォームが送信されたときの処理
     $("#postForm").submit(function (event) {
-        event.preventDefault();
+        event.preventDefault(); // デフォルトのフォーム送信をキャンセル
+
         $.ajax({
             url: "../../apk/makePost.php",
             type: "POST",
             data: $(this).serialize(),
             success: function (response) {
                 $("#comment").val("");
-                $("#postsContainer").html(response);
                 popupForm.style.display = 'none';
-                getPosts();
+                getPosts(); // 投稿内容を取得し直す
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("Error making post:", textStatus, errorThrown);
             }
         });
     });
@@ -77,6 +113,9 @@
             data: formData,
             success: function (response) {
                 getPosts();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("Error making reply:", textStatus, errorThrown);
             }
         });
     });
@@ -84,48 +123,13 @@
     $(document).on('click', '.likePostButton', function (event) {
         event.preventDefault();
         var postID = $(this).data('post-id');
-        $.ajax({
-            url: "../../apk/likePost.php",
-            type: "POST",
-            data: { postID: postID },
-            success: function (response) {
-                getPosts();
-            }
-        });
+        likePost(postID);
     });
 
     $(document).on('click', '.likeReplyButton', function (event) {
         event.preventDefault();
         var replyID = $(this).data('reply-id');
-        $.ajax({
-            url: "../../apk/likeReply.php",
-            type: "POST",
-            data: { repID: replyID },
-            success: function (response) {
-                getPosts();
-            }
-        });
-    });
-});
-
-
-    $(document).ready(function () {
-    getPosts();
-
-    
-
-    $(document).on('submit', '.replyForm', function (event) {
-        event.preventDefault();
-        var postID = $(this).data('post-id');
-        var formData = $(this).serialize() + '&postID=' + postID;
-        $.ajax({
-            url: "../../apk/makeReply.php",
-            type: "POST",
-            data: formData,
-            success: function (response) {
-                getPosts();
-            }
-        });
+        likeReply(replyID);
     });
 });
 

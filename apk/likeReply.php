@@ -4,9 +4,25 @@ require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
 function likeReply() {
+    echo "いいね受け取った";
     global $pdo;
+    if (!isset($_SESSION['userID'])) {
+        echo "ログインしてください。";
+        
+        exit;
+    }
+
     $userID = $_SESSION['userID'];
+    //echo $userID;
     $repID = $_POST['repID'];
+    //echo $repID;
+    // デバッグ出力
+    //error_log("Received repID: " . $repID);
+
+    if (!isset($repID) || !is_numeric($repID)) {
+        echo "無効なrepIDです。";
+        return;
+    }
 
     try {
         $stmt = $pdo->prepare("INSERT INTO `reply_likes` (`repID`, `userID`) VALUES (:repID, :userID)");
@@ -23,7 +39,7 @@ function likeReply() {
 
     } catch (PDOException $e) {
         if ($e->getCode() == 23000) {
-            echo "You have already liked this reply.";
+            echo "もういいねしています.";
         } else {
             echo "Error: " . $e->getMessage();
         }
@@ -32,9 +48,9 @@ function likeReply() {
     }
 }
 
-if (isset($_SESSION["userID"])) {
+if (isset($_POST['repID'])) {
     likeReply();
 } else {
-    echo "You must be logged in to like a reply.";
+    echo "POSTデータがありません。";
 }
 ?>

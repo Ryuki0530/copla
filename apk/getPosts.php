@@ -71,7 +71,9 @@ function getPosts() {
                 <br>';
 
             foreach ($Post['replies'] as $Reply) {
-                echo '<hr>
+               echo "<hr>"; 
+                //echo  "repID:".$Reply["repID"] ;
+                echo  '
                 <div class="reply">
                     <div class="nameArea">
                         <p class="username">' . $Reply["idName"] . '</p>
