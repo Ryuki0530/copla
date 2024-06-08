@@ -19,16 +19,23 @@
     <div class="popup-form-content">
         <span id="closeFormButton" class="close">&times;</span>
         <form id="postForm"> 
+            <div id="titleForm" style="display: none;">
+            タイトル
+            <input type="text" id="title" name="title" style=" font-size: 140%" maxlength="60"></textarea>
+            <br><br>内容<br>
+            </div>
             <textarea id="comment" class="commentTextArea" name="comment" style="width: 100%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
             <br><br>
             <label for="category">投稿カテゴリーを選択:</label>
-            <select id="category" name="category" style="font-size: 140%">
+            <select id="category" name="category" style="font-size: 140%" onchange="showHideFormElement()">
                 <option value="2">授業</option>
                 <option value="3">部活</option>
                 <option value="4">研究室</option>
                 <option value="5">就活</option>
                 <option value="1">その他</option>
                 <option value="6">イベント</option>
+                <hr>
+                <option value="7">記事投稿</option>
             </select><br>
             <input class="submitButton" type="submit" value="投稿" name="submitButton" style="font-size: 140%">
         </form>
@@ -41,6 +48,20 @@
     const limit = 20;
     const postsContainer = document.getElementById('postsContainer');
     let isLoading = false;
+
+    function showHideFormElement() {
+        var category = document.getElementById("category");
+        var titleForm = document.getElementById("titleForm");
+        var comment = document.getElementById("comment");
+
+        if (category.value == "7") {
+            titleForm.style.display = "block";
+            comment.style.height = "500px";
+        } else {
+            titleForm.style.display = "none";
+            comment.style.height = "200px";
+        }
+    }
 
     async function likePost(postID) {
         try {
@@ -96,11 +117,20 @@
     }
 
     function openReply(openID){
-        var calssName = "repAt"+openID;
-        var elements = document.getElementsByClassName(calssName);
+        var className = "repAt"+openID;
+        var elements = document.getElementsByClassName(className);
+        
+        var className2 = "repOpenerAt"+openID;
+        var elements2 = document.getElementsByClassName(className2);
+         
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.display = 'block'; // 'inline' if it was 'display: inline;'
+            elements[i].style.display = 'block';
         }
+        for (var i = 0; i < elements2.length; i++) {
+            elements2[i].style.display = 'none';
+        }
+
+        
     }
 
     $(document).ready(function () {
@@ -119,11 +149,16 @@
                 url: "../../apk/makePost.php",
                 type: "POST",
                 data: $(this).serialize(),
+                dataType: "json",
                 success: function (response) {
-                    $("#comment").val("");
-                    popupForm.style.display = 'none';
-                    offset = 0; // オフセットをリセット
-                    getPosts(true); // 投稿後に最新の投稿を再読み込み
+                    if (response.error) {
+                        alert(response.error);
+                    } else {
+                        $("#comment").val("");
+                        popupForm.style.display = 'none';
+                        offset = 0; // オフセットをリセット
+                        getPosts(true); // 投稿後に最新の投稿を再読み込み
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error("Error making post:", textStatus, errorThrown);
@@ -162,7 +197,6 @@
         });
 
         $(document).on('click', '.moreReplyButton', function (event) {
-            
             event.preventDefault();
             var openID = $(this).data('post-id');
             console.log(openID);
@@ -170,5 +204,6 @@
         });
     });
 </script>
+
 </body>
 </html>

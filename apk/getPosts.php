@@ -2,8 +2,12 @@
 require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
+
+
 function getPosts() {
     global $pdo, $postArray;
+
+    $genreeName =  ['NULL','その他','授業','部活・サークル','研究室','就活','イベント','記事'];
 
     $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
@@ -13,7 +17,7 @@ function getPosts() {
             throw new Exception("Database connection failed");
         }
 
-        $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav` FROM `posts` ORDER BY `datetime` DESC LIMIT :offset, :limit";
+        $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` ORDER BY `datetime` DESC LIMIT :offset, :limit";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
@@ -67,24 +71,31 @@ function getPosts() {
             <article>
                 <div class="wrapper">
                     <div class="nameArea">
+                        <p class="genre">' . $genreeName[$Post["genre"]] . '</p>
                         <p class="username">' . $Post["idName"] . '</p>
                         <font size="2px">
                             <time>' . $Post["datetime"] . '</time>
                         </font>
                     </div>
+            ';
+
+            if($Post["genre"] == 7){
+                echo'<h1>'.$Post["title"].'</h1><br>';
+            }        
+            echo'
                     <p class="comment">' . $Post["body"] . '</p>
                     <p class="likes">いいね: ' . $Post["likeCount"] . '</p>
                     <button class="likePostButton" data-post-id="' . $Post["postID"] . '">いいね</button>
-                
-                <br>';
+                    <br>
+            ';
             $count = 0;
             foreach ($Post['replies'] as $Reply) {
-                if($count==1){
-                    echo('<div class = "repAt'.$Post["postID"].'" style="display: none;">');
+                if ($count == 1) {
+                    echo('<div class="repAt' . $Post["postID"] . '" style="display: none;">');
                 }
-                echo "<hr>"; 
+                echo "<hr>";
                 echo($Reply["repID"]);
-                echo  '
+                echo '
                 <div class="reply">
                     <div class="nameArea">
                         <p class="username">' . $Reply["idName"] . '</p>
@@ -97,17 +108,19 @@ function getPosts() {
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
                 </div>
                 <br>';
-               
+
                 $count++;
             }
-            if($count>1){
-                echo("</div><br>");
-                echo('<button class="moreReplyButton" data-post-id="' . $Post["postID"] . '">Show more</button>');
+            if ($count > 1) {
+                $OtherRepNum = $count - 1;
+                echo('</div><div class="repOpenerAt' . $Post["postID"] . '"><br>他' . $OtherRepNum . '件の返信<br>');
+                echo('<button class="moreReplyButton" data-post-id="' . $Post["postID"] . '">Show more</button></div>');
             }
+
             echo '
                 <div class="reply-form">
                 <form class="replyForm" data-post-id="' . $Post["postID"] . '">
-                <textarea class="replyTextArea" name="replyBody" style="width: 88%; height: 50%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
+                <br><textarea class="replyTextArea" name="replyBody" style="width: 88%; height: 50%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
                 <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
             </form><br>
             </div>
