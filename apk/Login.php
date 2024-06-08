@@ -1,6 +1,14 @@
 <?php
     require_once __DIR__ . '/../apk/connectDB.php';
-    require_once __DIR__ . '/../etc/Settings.php';    
+    require_once __DIR__ . '/../etc/Settings.php';  
+
+    // むりやり追加
+    // $db_host = 'localhost';
+    // $db_name = 'copla_db';
+    // $db_user = 'root';
+    // $db_pass = '';
+
+    // $pdo = new PDO('mysql:host='.$db_host.';dbname='.$db_name, $db_user, $db_pass);
 
     if(isset($_POST['submit'])){
         $userID = trim($_POST['userID']);
@@ -24,7 +32,7 @@
             $stmt = null;
             $pdo = null;
         }catch(PDOException $e){
-            //echo $e->getMessage();
+            // echo $e->getMessage();
         }
     }
 

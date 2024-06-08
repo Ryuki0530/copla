@@ -18,6 +18,7 @@ if (isset($_SESSION['userID'])) {
     <link rel="stylesheet" href="./css/stylesheet.css">
     <meta charset="utf-8">
     <title>Copla ログイン</title>
+    <!-- 下部のスクロールバーを消したい -->
 </head>
 <body>
     <div class="container">

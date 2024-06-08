@@ -18,6 +18,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="./css/stylesheet.css">
     <meta charset="utf-8">
     <title>Copla 利用登録</title>
+    <!-- 下部のスクロールバーを消したい -->
   </head>
   <body>
     <div class="container">
