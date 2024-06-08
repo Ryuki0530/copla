@@ -77,10 +77,13 @@ function getPosts() {
                     <button class="likePostButton" data-post-id="' . $Post["postID"] . '">いいね</button>
                 
                 <br>';
-
+            $count = 0;
             foreach ($Post['replies'] as $Reply) {
+                if($count==1){
+                    echo('<div class = "repAt'.$Post["postID"].'" style="display: none;">');
+                }
                 echo "<hr>"; 
-                //echo  "repID:".$Reply["repID"] ;
+                echo($Reply["repID"]);
                 echo  '
                 <div class="reply">
                     <div class="nameArea">
@@ -94,8 +97,13 @@ function getPosts() {
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
                 </div>
                 <br>';
+               
+                $count++;
             }
-
+            if($count>1){
+                echo("</div><br>");
+                echo('<button class="moreReplyButton" data-post-id="' . $Post["postID"] . '">Show more</button>');
+            }
             echo '
                 <div class="reply-form">
                 <form class="replyForm" data-post-id="' . $Post["postID"] . '">
