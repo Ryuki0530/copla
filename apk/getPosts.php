@@ -4,13 +4,21 @@ require_once __DIR__ . '/../etc/Settings.php';
 
 function getPosts() {
     global $pdo, $postArray;
+
+    $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
+
     try {
         if (!$pdo) {
             throw new Exception("Database connection failed");
         }
 
-        $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav` FROM `posts` ORDER BY `datetime` DESC;";
-        $postArray = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav` FROM `posts` ORDER BY `datetime` DESC LIMIT :offset, :limit";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $postArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($postArray as &$Post) {
             $userID = $Post['userID'];
@@ -71,7 +79,7 @@ function getPosts() {
                 <br>';
 
             foreach ($Post['replies'] as $Reply) {
-               echo "<hr>"; 
+                echo "<hr>"; 
                 //echo  "repID:".$Reply["repID"] ;
                 echo  '
                 <div class="reply">
