@@ -8,9 +8,23 @@
 <body bgcolor="white">
 <div class="top">
     <div class="search">
-        <input type="search" id="site-search" name="q"/>
-        <button type="submit" class="bt-sch"><img src=".././resource/検索.png" width="15"></button>
+        <form id="genreSearchForm">
+            <select id="serByCategory" name="serByCategory" style="font-size: 100%" onchange="filterByGenre()">
+                <option value="">すべて</option><hr><hr>
+                <option value="2">授業</option>
+                <option value="3">部活</option>
+                <option value="4">研究室</option>
+                <option value="5">就活</option>
+                <option value="1">その他</option>
+                <option value="6">イベント</option>
+                <hr>
+                <option value="7">記事投稿</option>
+            </select>
+            <input type="search" id="site-search" name="q"/>
+            <button type="submit" class="bt-sch"><img src=".././resource/検索.png" width="15"></button><br><br>
+        </form>
     </div>
+
 </div>
 <div id="postsContainer">
     <!-- ここに投稿内容が表示されます -->
@@ -116,6 +130,7 @@
         });
     }
 
+
     function openReply(openID){
         var className = "repAt"+openID;
         var elements = document.getElementsByClassName(className);
@@ -132,6 +147,31 @@
 
         
     }
+
+    function filterByGenre() {
+        const genre = document.getElementById('serByCategory').value;
+        getPostsByGenre(genre);
+    }
+
+    function getPostsByGenre(genre) {
+        if (isLoading) return;
+        isLoading = true;
+        $.ajax({
+            url: "../../apk/getPosts.php",
+            type: "GET",
+            data: { genre: genre, offset: 0, limit: limit },
+            success: function(response) {
+                postsContainer.innerHTML = response;
+                offset = limit;
+            
+                isLoading = false;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error getting posts:", textStatus, errorThrown);
+                isLoading = false;
+            }
+        });
+}
 
     $(document).ready(function () {
         getPosts(true); // 初回読み込み
