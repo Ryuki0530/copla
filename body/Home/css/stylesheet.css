@@ -58,6 +58,18 @@ body {
     font-size: 1.5rem;
 }
 
+#openFormButton {
+    background-color:#0080ff;
+}
+
+#openFormButton:hover {
+    background-color:#00bfff;
+}
+
+#openFormButton .title {
+    color: white;
+}
+
 .content-wrapper{
     padding-top: 30px;
 }
