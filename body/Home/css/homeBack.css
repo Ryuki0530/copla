@@ -14,7 +14,7 @@ html, body {
   }
   #center {
     /* width: 50%; */
-    width: 69%;
+    width: 65%;
   }
   #right {
     flex-grow: 1;

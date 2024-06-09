@@ -76,7 +76,7 @@ function searchPosts() {
         }
 
         foreach ($postArray as $Post) {
-            echo '
+            echo '<br>
             <article>
                 <div class="wrapper">
                     <div class="nameArea">
@@ -136,7 +136,7 @@ function searchPosts() {
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
                 </div>
-            </article><br>
+            </article>
             ';
         }
     } catch (Exception $e) {
