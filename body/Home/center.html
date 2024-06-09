@@ -19,16 +19,23 @@
     <div class="popup-form-content">
         <span id="closeFormButton" class="close">&times;</span>
         <form id="postForm"> 
+            <div id="titleForm" style="display: none;">
+            タイトル
+            <input type="text" id="title" name="title" style=" font-size: 140%" maxlength="60"></textarea>
+            <br><br>内容<br>
+            </div>
             <textarea id="comment" class="commentTextArea" name="comment" style="width: 100%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
             <br><br>
             <label for="category">投稿カテゴリーを選択:</label>
-            <select id="category" name="category" style="font-size: 140%">
+            <select id="category" name="category" style="font-size: 140%" onchange="showHideFormElement()">
                 <option value="2">授業</option>
                 <option value="3">部活</option>
                 <option value="4">研究室</option>
                 <option value="5">就活</option>
                 <option value="1">その他</option>
                 <option value="6">イベント</option>
+                <hr>
+                <option value="7">記事投稿</option>
             </select><br>
             <input class="submitButton" type="submit" value="投稿" name="submitButton" style="font-size: 140%">
         </form>
@@ -37,102 +44,166 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="../scripts/postPop.js"></script>
 <script>
-    const popupForm = document.getElementById('popupForm');
+    let offset = 0;
+    const limit = 20;
+    const postsContainer = document.getElementById('postsContainer');
+    let isLoading = false;
 
-async function likePost(postID) {
-    try {
-        let response = await $.ajax({
-            url: "../../apk/likePost.php",
-            type: "POST",
-            data: { postID: postID }
-        });
-        console.log(response);
-        getPosts();
-    } catch (error) {
-        console.error("Error liking post:", error);
-    }
-}
+    function showHideFormElement() {
+        var category = document.getElementById("category");
+        var titleForm = document.getElementById("titleForm");
+        var comment = document.getElementById("comment");
 
-async function likeReply(replyID) {
-    try {
-        let response = await $.ajax({
-            url: "../../apk/likeReply.php",
-            type: "POST",
-
-            data: { repID: replyID }
-        });
-        console.log(response);
-        getPosts();
-    } catch (error) {
-        console.error("Error liking reply:", error);
-    }
-}
-
-function getPosts() {
-    $.ajax({
-        url: "../../apk/getPosts.php",
-        type: "GET",
-        success: function (response) {
-            $("#postsContainer").html(response);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error("Error getting posts:", textStatus, errorThrown);
+        if (category.value == "7") {
+            titleForm.style.display = "block";
+            comment.style.height = "500px";
+        } else {
+            titleForm.style.display = "none";
+            comment.style.height = "200px";
         }
-    });
-}
+    }
 
-$(document).ready(function () {
-    getPosts();
+    async function likePost(postID) {
+        try {
+            let response = await $.ajax({
+                url: "../../apk/likePost.php",
+                type: "POST",
+                data: { postID: postID }
+            });
+            console.log(response);
+            offset = 0;
+            getPosts(true);
+        } catch (error) {
+            console.error("Error liking post:", error);
+        }
+    }
 
-    // フォームが送信されたときの処理
-    $("#postForm").submit(function (event) {
-        event.preventDefault(); // デフォルトのフォーム送信をキャンセル
+    async function likeReply(replyID) {
+        try {
+            let response = await $.ajax({
+                url: "../../apk/likeReply.php",
+                type: "POST",
+                data: { repID: replyID }
+            });
+            console.log(response);
+            offset = 0;
+            getPosts(true);
+        } catch (error) {
+            console.error("Error liking reply:", error);
+        }
+    }
 
+    function getPosts(initialLoad = false) {
+        if (isLoading) return;
+        isLoading = true;
         $.ajax({
-            url: "../../apk/makePost.php",
-            type: "POST",
-            data: $(this).serialize(),
+            url: "../../apk/getPosts.php",
+            type: "GET",
+            data: { offset: offset, limit: limit },
             success: function (response) {
-                $("#comment").val("");
-                popupForm.style.display = 'none';
-                getPosts(); // 投稿内容を取得し直す
+                if (initialLoad) {
+                    postsContainer.innerHTML = response;
+                } else {
+                    postsContainer.innerHTML += response;
+                }
+                offset += limit;
+                isLoading = false;
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error("Error making post:", textStatus, errorThrown);
+                console.error("Error getting posts:", textStatus, errorThrown);
+                isLoading = false;
             }
         });
-    });
+    }
 
-    $(document).on('submit', '.replyForm', function (event) {
-        event.preventDefault();
-        var postID = $(this).data('post-id');
-        var formData = $(this).serialize() + '&postID=' + postID;
-        $.ajax({
-            url: "../../apk/makeReply.php",
-            type: "POST",
-            data: formData,
-            success: function (response) {
+    function openReply(openID){
+        var className = "repAt"+openID;
+        var elements = document.getElementsByClassName(className);
+        
+        var className2 = "repOpenerAt"+openID;
+        var elements2 = document.getElementsByClassName(className2);
+         
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'block';
+        }
+        for (var i = 0; i < elements2.length; i++) {
+            elements2[i].style.display = 'none';
+        }
+
+        
+    }
+
+    $(document).ready(function () {
+        getPosts(true); // 初回読み込み
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
                 getPosts();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("Error making reply:", textStatus, errorThrown);
             }
         });
-    });
 
-    $(document).on('click', '.likePostButton', function (event) {
-        event.preventDefault();
-        var postID = $(this).data('post-id');
-        likePost(postID);
-    });
+        $("#postForm").submit(function (event) {
+            event.preventDefault(); // デフォルトのフォーム送信をキャンセル
 
-    $(document).on('click', '.likeReplyButton', function (event) {
-        event.preventDefault();
-        var replyID = $(this).data('reply-id');
-        likeReply(replyID);
-    });
-});
+            $.ajax({
+                url: "../../apk/makePost.php",
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: "json",
+                success: function (response) {
+                    if (response.error) {
+                        alert(response.error);
+                    } else {
+                        $("#comment").val("");
+                        popupForm.style.display = 'none';
+                        offset = 0; // オフセットをリセット
+                        getPosts(true); // 投稿後に最新の投稿を再読み込み
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error making post:", textStatus, errorThrown);
+                }
+            });
+        });
 
+        $(document).on('submit', '.replyForm', function (event) {
+            event.preventDefault();
+            var postID = $(this).data('post-id');
+            var formData = $(this).serialize() + '&postID=' + postID;
+            $.ajax({
+                url: "../../apk/makeReply.php",
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    offset = 0; // オフセットをリセット
+                    getPosts(true); // 返信後に最新の投稿を再読み込み
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error making reply:", textStatus, errorThrown);
+                }
+            });
+        });
+
+        $(document).on('click', '.likePostButton', function (event) {
+            event.preventDefault();
+            var postID = $(this).data('post-id');
+            likePost(postID);
+        });
+
+        $(document).on('click', '.likeReplyButton', function (event) {
+            event.preventDefault();
+            var replyID = $(this).data('reply-id');
+            likeReply(replyID);
+        });
+
+        $(document).on('click', '.moreReplyButton', function (event) {
+            event.preventDefault();
+            var openID = $(this).data('post-id');
+            console.log(openID);
+            openReply(openID);
+        });
+    });
 </script>
+
 </body>
 </html>
