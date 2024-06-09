@@ -2,11 +2,55 @@
 <html>
   <head>
     <link rel="stylesheet" href="./css/stylesheet.css">
+
+    <!-- 読み込まない方がいい? -->
+    <!-- 下部のスクロールバーを消したい -->
+    <link rel="stylesheet" href="./css/homeBack.css">
     <meta charset="utf-8">
     <title></title>
   </head>
   <body bgcolor="white">
-    <div class="content">
+    <div class="navigation">
+      <ul>
+        <li class="list">
+          <a href="">
+            <span class="icon"><img src=".././resource/イベント.png" alt=""></span>
+            <span class="title">イベント</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><img src=".././resource/記事.png" alt=""></span>
+            <span class="title">記事</span>
+          </a>
+        </li>
+        <li class="list" id="openFormButton" name="openFormButton">
+          <a href="">
+            <span class="icon"><img src=".././resource/投稿.png" alt=""></span>
+            <span class="title">投稿</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><img src=".././resource/マイページ.png" alt=""></span>
+            <span class="title">マイページ</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"><img src=".././resource/設定.png" alt=""></span>
+            <span class="title">設定</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../apk/Logout.php" class="logout-menu">
+            <span class="icon"><img src=".././resource/ログアウト.png" alt=""></span>
+            <span class="title">ログアウト</span>
+          </a>
+        </li>
+      </ul>
+      
+      <!--
       <div class="content-top">
         <div class="content-wrapper">
           <a href="#" class="btn event"><img src=".././resource/イベント.jpg" width="30">イベント</a><br>
@@ -30,6 +74,7 @@
         </div>
       </div>
     </div>
+    -->
     <script src="../scripts/leftPostPop.js"></script>
   </body>
 </html>

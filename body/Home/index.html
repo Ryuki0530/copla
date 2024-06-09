@@ -7,8 +7,59 @@
     
   </head>
 
-   <iframe id="left" class="frame" src="leftCtrl.php" style="background: transparent;" allowtransparency="true" name="leftFrame"></iframe>
-    <iframe id="center" class="frame" src="center.html" name="centerFrame"></iframe>
+    <div class="left-center-content">
+      <iframe frameborder=0 id="left" class="frame" src="leftCtrl.php" style="background: transparent;" allowtransparency="true" name="leftFrame" onload="siteLoaded()"></iframe>
+      <iframe id="center" class="frame" src="center.html" name="centerFrame"></iframe>
+    </div>
+
     <iframe id="right" class="frame" src="right.html" style="background: transparent;"allowtransparency="true" ></iframe>
-    
+    <!-- <script src="../scripts/loginMenu.js"></script> -->
+    <script>
+      const iframeLeft = document.getElementById("left");
+      
+
+      let loginMenu;
+      let loginCancel;
+
+      function siteLoaded() {
+
+        console.log(iframeLeft);
+
+        loginMenu = iframeLeft.contentWindow.document.querySelector(".login-menu");
+        loginCancel = iframeLeft.contentWindow.document.querySelector(".login-cancel");
+        loginCheck = iframeLeft.contentWindow.document.querySelector(".logout-menu")
+        loginRegister = iframeLeft.contentWindow.document.querySelector(".login-register");
+
+        console.log("GET login-menu");
+        console.log(loginMenu);
+        console.log("GET login-cancel");
+        console.log(loginCancel);
+        console.log("GET logout-menu");
+        console.log(loginCheck);
+
+        console.log("Enble to detect click");
+
+        if (loginCheck != null) {
+          closeWindow();
+        }
+
+        if (loginMenu != null) {
+          loginMenu.addEventListener("click", openWindow);
+        }
+
+        if (loginCancel != null) {
+          loginCancel.addEventListener("click", closeWindow);
+        }
+
+        function openWindow() {
+          console.log("Open the login-menu");
+          iframeLeft.classList.add("active");
+        }
+
+        function closeWindow() {
+          console.log("Close the login-menu");
+          iframeLeft.classList.remove("active");
+        }
+      }
+    </script>
 </html>

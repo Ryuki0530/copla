@@ -16,6 +16,7 @@ function getPosts() {
             throw new Exception("Database connection failed");
         }
 
+
         if ($genre !== null) {
             $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` WHERE `genre` = :genre ORDER BY `datetime` DESC LIMIT :offset, :limit";
             $stmt = $pdo->prepare($sql);

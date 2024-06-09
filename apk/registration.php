@@ -9,6 +9,8 @@ if(isset($_POST['signin'])){
     $idName = trim($_POST['idName']);
     $userPassword = $_POST['userPassword'];
     $userPassword2 = $_POST['userPassword2'];
+
+    echo $userID.$idName.$userPassword.$userPassword2;
     
     if (!empty($userID) && !empty($idName) && !empty($userPassword) && !empty($userPassword2)) {
         try {
@@ -17,12 +19,17 @@ if(isset($_POST['signin'])){
             $stmt->execute();
             $count = $stmt->fetchColumn();
 
+            echo $count;
+
+            // あらかじめ設定した学籍番号が入力された場合
             if ($count == 1) {
                 $stmt = $pdo->prepare("SELECT `ini` FROM `users` WHERE `userID` = :userID");
                 $stmt->bindParam(':userID', $userID, PDO::PARAM_STR);
                 $stmt->execute();
                 $ini = $stmt->fetchColumn();
 
+                // 今回が新規登録の場合
+                // その学籍番号のアカウントのパスワードやニックネームを設定する。
                 if ($ini == 0) {
                     if ($userPassword === $userPassword2) {
                         $hashedPassword = password_hash($userPassword, PASSWORD_DEFAULT);
