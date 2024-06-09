@@ -2,15 +2,72 @@ body {
     background: transparent;
 }
 
-.content{
+.navigation {
     text-align: center;
     padding-top: 20px;
-    width: 300px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.navigation ul {
+    /* display: flex; */
+    width: 100%;
+    padding-top:  20px;
+    padding-left: 10px;
+}
+
+.navigation ul li {
+    list-style: none;
+    border-radius: 10px;
+    padding: 10px 0px;
+}
+
+.navigation ul li:hover {
+    background-color: #b5a8a868;
+}
+
+.navigation ul li a{
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    display: flex;
+}
+
+.navigation ul li a .icon {
+    /* padding-right: 30px; */
+}
+
+.navigation ul li a .title {
+    padding-left: 40px;
+    height: 60px;
+    line-height: 60px;
+    white-space: nowrap;
+}
+
+.navigation ul li a .icon img {
+    /* display: block; */
+    min-width: 45px;
+    height: 50px;
+    line-height: 70px;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+#openFormButton {
+    background-color:#0080ff;
+}
+
+#openFormButton:hover {
+    background-color:#00bfff;
+}
+
+#openFormButton .title {
+    color: white;
 }
 
 .content-wrapper{
@@ -26,6 +83,12 @@ body {
     color: black;
     text-decoration: none;
     font-size: 30px;
+    
+    /* 追加 アイコンの文字をたたむ */
+    /* text-indent:100%;
+	white-space:nowrap;
+	overflow:hidden; */
+
 }
 
 .btn button{
@@ -51,7 +114,7 @@ button{
     border-radius: 4px;
     cursor: pointer;
     box-shadow: 0 5px #00008b;
-  }
+}
   
   button:hover {
     background-color: #87cefa;
@@ -63,3 +126,40 @@ button{
     position: relative;
   }
 
+/* leftが270pxより小さくなったら */
+@media screen and (max-width: 270px) {
+
+    .navigation ul li {
+        /* display: flex; */
+    }
+
+    .navigation ul li a {
+        width: 0px;
+        display: block;
+        margin: auto;
+    }
+
+    .navigation ul li a .title {
+        display: none;
+    }
+
+}
+
+/* スマホ版縦レイアウト*/
+@media screen and (max-height: 150px) {
+    .navigation {
+        padding-top: 0px;
+    }
+
+    .navigation ul li a .title {
+        display: none;
+    }
+
+    .navigation ul {   
+        display: flex; 
+        flex: 1;
+        padding-top: 0px;
+        margin-top: 0px;
+        justify-content: space-around;
+    }
+}

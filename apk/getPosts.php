@@ -17,7 +17,7 @@ function getPosts() {
             throw new Exception("Database connection failed");
         }
 
-        $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` ORDER BY `datetime` DESC LIMIT :offset, :limit";
+        $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`, `title` FROM `posts` ORDER BY `datetime` DESC LIMIT :offset, :limit";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);

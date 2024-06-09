@@ -18,6 +18,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="./css/stylesheet.css">
     <meta charset="utf-8">
     <title>Copla 利用登録</title>
+    <!-- 下部のスクロールバーを消したい -->
   </head>
   <body>
     <div class="container">
@@ -27,7 +28,7 @@ error_reporting(E_ALL);
         <input type="text" name="idName" placeholder="ニックネーム(表示名)" />
         <input type="password" name="userPassword" placeholder="パスワード" />
         <input type="password" name="userPassword2" placeholder="パスワード(再入力)" />
-        <button type="submit" name="signin">登録</button>
+        <button type="submit" name="signin" class="login-register">登録</button>
       </form>
     </div>
     
