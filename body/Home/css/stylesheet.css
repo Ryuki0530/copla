@@ -2,7 +2,7 @@ body {
     background: transparent;
 }
 
-.content{
+.navigation {
     text-align: center;
     padding-top: 20px;
     width: 100%;
@@ -13,42 +13,42 @@ body {
     border-radius: 5px;
 }
 
-.content ul {
+.navigation ul {
     /* display: flex; */
     width: 100%;
     padding-top:  20px;
     padding-left: 10px;
 }
 
-.content ul li {
+.navigation ul li {
     list-style: none;
     border-radius: 10px;
     padding: 10px 0px;
 }
 
-.content ul li:hover {
+.navigation ul li:hover {
     background-color: #b5a8a868;
 }
 
-.content ul li a{
+.navigation ul li a{
     text-decoration: none;
     color: black;
     width: 100%;
     display: flex;
 }
 
-.content ul li a .icon {
+.navigation ul li a .icon {
     /* padding-right: 30px; */
 }
 
-.content ul li a .title {
+.navigation ul li a .title {
     padding-left: 40px;
     height: 60px;
     line-height: 60px;
     white-space: nowrap;
 }
 
-.content ul li a .icon img {
+.navigation ul li a .icon img {
     /* display: block; */
     min-width: 45px;
     height: 50px;
@@ -117,17 +117,17 @@ button{
 /* leftが270pxより小さくなったら */
 @media screen and (max-width: 270px) {
 
-    .content ul li {
+    .navigation ul li {
         /* display: flex; */
     }
 
-    .content ul li a {
+    .navigation ul li a {
         width: 0px;
         display: block;
         margin: auto;
     }
 
-    .content ul li a .title {
+    .navigation ul li a .title {
         display: none;
     }
 
@@ -135,15 +135,15 @@ button{
 
 /* スマホ版縦レイアウト*/
 @media screen and (max-height: 150px) {
-    .content {
+    .navigation {
         padding-top: 0px;
     }
 
-    .content ul li a .title {
+    .navigation ul li a .title {
         display: none;
     }
 
-    .content ul {   
+    .navigation ul {   
         display: flex; 
         flex: 1;
         padding-top: 0px;

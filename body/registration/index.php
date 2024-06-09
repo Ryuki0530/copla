@@ -28,7 +28,7 @@ error_reporting(E_ALL);
         <input type="text" name="idName" placeholder="ニックネーム(表示名)" />
         <input type="password" name="userPassword" placeholder="パスワード" />
         <input type="password" name="userPassword2" placeholder="パスワード(再入力)" />
-        <button type="submit" name="signin">登録</button>
+        <button type="submit" name="signin" class="login-register">登録</button>
       </form>
     </div>
     
