@@ -2,26 +2,32 @@
 require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
-function getPosts() {
+function searchPosts() {
     global $pdo, $postArray;
 
-    $genreeName =  ['NULL','その他','授業','部活・サークル','研究室','就活','イベント','記事'];
-
+    $genreeName = ['NULL', 'その他', '授業', '部活・サークル', '研究室', '就活', 'イベント', '記事'];
+    $query = isset($_GET['q']) ? trim($_GET['q']) : '';
     $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
-    $genre = isset($_GET['genre']) && $_GET['genre'] !== '' ? (int)$_GET['genre'] : null;
 
     try {
         if (!$pdo) {
             throw new Exception("Database connection failed");
         }
 
-        if ($genre !== null) {
-            $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` WHERE `genre` = :genre ORDER BY `datetime` DESC LIMIT :offset, :limit";
+        if ($query !== '') {
+            $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`, `title`
+                    FROM `posts`
+                    WHERE `title` LIKE :query OR `body` LIKE :query
+                    ORDER BY `datetime` DESC
+                    LIMIT :offset, :limit";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':genre', $genre, PDO::PARAM_INT);
+            $stmt->bindValue(':query', '%' . $query . '%', PDO::PARAM_STR);
         } else {
-            $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` ORDER BY `datetime` DESC LIMIT :offset, :limit";
+            $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`, `title`
+                    FROM `posts`
+                    ORDER BY `datetime` DESC
+                    LIMIT :offset, :limit";
             $stmt = $pdo->prepare($sql);
         }
 
@@ -45,7 +51,7 @@ function getPosts() {
             $likeCount = $likeStmt->fetchColumn();
             $Post['likeCount'] = $likeCount;
 
-            $sql4 = "SELECT `repID`, `userID`, `body`, `datetime` FROM `replies` WHERE `postID` = :postID ORDER BY `datetime` ASC;";
+            $sql4 = "SELECT `repID`, `userID`, `body`, `datetime` FROM `replies` WHERE `postID` = :postID ORDER BY `datetime` ASC";
             $replyStmt = $pdo->prepare($sql4);
             $replyStmt->execute(['postID' => $postID]);
             $replies = $replyStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -71,7 +77,6 @@ function getPosts() {
 
         foreach ($postArray as $Post) {
             echo '
-            <br>
             <article>
                 <div class="wrapper">
                     <div class="nameArea">
@@ -131,8 +136,7 @@ function getPosts() {
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
                 </div>
-            </article>
-            
+            </article><br>
             ';
         }
     } catch (Exception $e) {
@@ -140,5 +144,5 @@ function getPosts() {
     }
 }
 
-getPosts();
+searchPosts();
 ?>

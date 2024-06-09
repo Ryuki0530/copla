@@ -8,9 +8,17 @@
 <body bgcolor="white">
 <div class="top">
     <div class="search">
-        <form id="genreSearchForm">
-            <select id="serByCategory" name="serByCategory" style="font-size: 100%" onchange="filterByGenre()">
-                <option value="">すべて</option><hr><hr>
+        <form id="searchForm" method="GET" action="searchPosts.php" class="searchForm">
+            <input type="search" id="site-search" name="q" placeholder="投稿内容から検索"/>
+            <button type="submit" class="bt-sch">
+                <img src=".././resource/検索.png" width="15">
+            </button>
+            <br><br>
+        </form>
+    
+        <form id="genreSearchForm" class ="genreSearchForm">
+            ジャンル選択&nbsp;&nbsp;<select id="serByCategory" name="serByCategory" style="font-size: 100%" onchange="filterByGenre()">
+                <option value="">ALL</option><hr><hr>
                 <option value="2">授業</option>
                 <option value="3">部活</option>
                 <option value="4">研究室</option>
@@ -20,11 +28,9 @@
                 <hr>
                 <option value="7">記事投稿</option>
             </select>
-            <input type="search" id="site-search" name="q"/>
-            <button type="submit" class="bt-sch"><img src=".././resource/検索.png" width="15"></button><br><br>
         </form>
     </div>
-
+    <hr>
 </div>
 <div id="postsContainer">
     <!-- ここに投稿内容が表示されます -->
@@ -32,7 +38,7 @@
 <div id="popupForm" class="popup-form">
     <div class="popup-form-content">
         <span id="closeFormButton" class="close">&times;</span>
-        <form id="postForm"> 
+        <form id="postForm">
             <div id="titleForm" style="display: none;">
             タイトル
             <input type="text" id="title" name="title" style=" font-size: 140%" maxlength="60"></textarea>
@@ -130,7 +136,6 @@
         });
     }
 
-
     function openReply(openID){
         var className = "repAt"+openID;
         var elements = document.getElementsByClassName(className);
@@ -144,8 +149,6 @@
         for (var i = 0; i < elements2.length; i++) {
             elements2[i].style.display = 'none';
         }
-
-        
     }
 
     function filterByGenre() {
@@ -163,7 +166,6 @@
             success: function(response) {
                 postsContainer.innerHTML = response;
                 offset = limit;
-            
                 isLoading = false;
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -171,7 +173,26 @@
                 isLoading = false;
             }
         });
-}
+    }
+
+    function searchPosts(keyword) {
+        if (isLoading) return;
+        isLoading = true;
+        $.ajax({
+            url: "../../apk/searchPosts.php",
+            type: "GET",
+            data: { q: keyword, offset: 0, limit: limit },
+            success: function(response) {
+                postsContainer.innerHTML = response;
+                offset = limit;
+                isLoading = false;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error searching posts:", textStatus, errorThrown);
+                isLoading = false;
+            }
+        });
+    }
 
     $(document).ready(function () {
         getPosts(true); // 初回読み込み
@@ -241,6 +262,12 @@
             var openID = $(this).data('post-id');
             console.log(openID);
             openReply(openID);
+        });
+
+        $("#searchForm").submit(function (event) {
+            event.preventDefault(); // デフォルトのフォーム送信をキャンセル
+            const keyword = $("#site-search").val();
+            searchPosts(keyword); // キーワード検索を実行
         });
     });
 </script>
