@@ -18,6 +18,19 @@ body{
     height: 100px;
 }
 
+.search{
+    width: 100%;
+}
+
+.genreSearchForm {
+    flex-grow: 1;
+    font-size: 140%;
+}
+.searchForm {
+    flex-grow: 9;
+    padding: 10px;
+}
+
 .search input{
     width: 80%;
     line-height: 2;
@@ -71,8 +84,7 @@ body {
 }
 
 .wrapper {
-
-    padding: 0px 10px;
+    padding: 10px 10px;
     background-color: #ffffff;
     border: 1px solid black;
     border-radius: 10px 10px;
