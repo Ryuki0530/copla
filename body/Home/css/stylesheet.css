@@ -26,7 +26,7 @@ body {
     padding: 10px 0px;
 }
 
-.navigation ul li:hover {
+.navigation ul .list:hover {
     background-color: #b5a8a868;
 }
 
@@ -147,8 +147,13 @@ button{
 
 /* スマホ版縦レイアウト*/
 @media screen and (max-height: 150px) {
+
     .navigation {
         padding-top: 0px;
+    }
+
+    .navigation .menu-logo {
+        display: none;
     }
 
     .navigation ul li a .title {
