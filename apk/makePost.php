@@ -12,16 +12,33 @@ function makeTubuyaki() {
     $comment = trim($_POST["comment"]);
     $title = trim($_POST["title"]);
     $response = array();
-    //投稿された画像名
-    $fileName;
+    //保存する画像の名前
+    $fileNewName;
     $exiPic = false;
 
-    // ファイルの存在チェックとエラーチェック
+    // ファイルの存在とアップロード有無のチェック
     if (isset($_FILES['pic']) && is_uploaded_file($_FILES['pic']['tmp_name'])) {
+        //エラー検出
         if ($_FILES['pic']['error'] === UPLOAD_ERR_OK) {
             // ファイル名を取得
+            $tmp_name = $_FILES["pic"]["tmp_name"];
             $fileName = $_FILES['pic']['name'];
-            $exiPic = true;
+            $fileNewName = date("YmdHis") . "-" . $fileName;
+            $upload = '../../userImages/post/' . $fileNewName;
+
+            // ディレクトリが存在しない場合は作成
+            if (!is_dir('../../userImages/post')) {
+                mkdir('../../userImages/post', 0777, true);
+            }
+
+            // ファイルを移動
+            if (move_uploaded_file($tmp_name, $upload)) {
+                $exiPic = true;
+            } else {
+                $response['error'] = "ファイルのアップロードに失敗しました。エラーコード: " . $_FILES['pic']['error'];
+                echo json_encode($response);    
+            }
+                        
         } else {
             $response['error'] = "ファイルのアップロードに失敗しました。エラーコード: " . $_FILES['pic']['error'];
             echo json_encode($response);
@@ -70,7 +87,7 @@ function makeTubuyaki() {
                 $stmt->bindParam(':title', $title, PDO::PARAM_STR);
             }
             if($exiPic){
-                $stmt->bindParam(':pic',$fileName, PDO::PARAM_STR);
+                $stmt->bindParam(':pic',$fileNewName, PDO::PARAM_STR);
             }
 
             $stmt->execute();
