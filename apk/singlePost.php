@@ -2,14 +2,13 @@
 require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
-function getPosts() {
+function singlePost() {
     global $pdo, $postArray;
 
     $genreeName =  ['NULL','その他','授業','部活・サークル','研究室','就活','イベント','記事'];
 
-    $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
-    $genre = isset($_GET['genre']) && $_GET['genre'] !== '' ? (int)$_GET['genre'] : null;
+    $iD = $_GET['iD'];
+    
 
     try {
         if (!$pdo) {
@@ -17,17 +16,11 @@ function getPosts() {
         }
 
 
-        if ($genre !== null) {
-            $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` WHERE `genre` = :genre ORDER BY `datetime` DESC LIMIT :offset, :limit";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':genre', $genre, PDO::PARAM_INT);
-        } else {
-            $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` ORDER BY `datetime` DESC LIMIT :offset, :limit";
-            $stmt = $pdo->prepare($sql);
-        }
-
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+       
+        $sql = "SELECT `postID`, `userID`, `genre`, `body`, `pic`, `location`, `datetime`, `fav`,`title` FROM `posts` WHERE `postID`=:iD";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':iD', $iD, PDO::PARAM_INT);
+        
         $stmt->execute();
         $postArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -101,11 +94,8 @@ function getPosts() {
             : ' . $Post["likeCount"] . '
             ';
 
-            $count = 0;
+       
             foreach ($Post['replies'] as $Reply) {
-                if ($count == 1) {
-                    echo '<div class="repAt' . $Post["postID"] . '" style="display: none;">';
-                }
                 echo "<hr>";
                 echo ($Reply["repID"]);
                 echo '
@@ -122,15 +112,7 @@ function getPosts() {
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
                 </div>
                 <br>';
-
-                $count++;
-            }
-
-            if ($count > 1) {
-                $OtherRepNum = $count - 1;
-                echo '</div><div class="repOpenerAt' . $Post["postID"] . '"><br>他' . $OtherRepNum . '件の返信<br>';
-                echo '<button class="moreReplyButton" data-post-id="' . $Post["postID"] . '">Show more</button></div>';
-            }
+            }           
 
             echo '
                 <div class="reply-form">
@@ -139,15 +121,16 @@ function getPosts() {
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
                 </div>
-
             </article>
-            
             ';
         }
+        
+            
+        
     } catch (Exception $e) {
         error_log("Error fetching posts: " . $e->getMessage());
     }
 }
 
-getPosts();
+singlePost();
 ?>
