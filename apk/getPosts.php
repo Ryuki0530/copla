@@ -89,7 +89,7 @@ function getPosts() {
             }
 
             echo '
-                    <p class="comment">' . $Post["body"] . '</p>';
+                    <p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p>';
 
             if(!$Post["pic"]==''){
                 echo'<img src="../../../userImages/post/'.$Post["pic"].'" alt="" title="" width="96%" height="65%">';
@@ -115,7 +115,7 @@ function getPosts() {
                             <time>' . $Reply["datetime"] . '</time>
                         </font>
                     </div>
-                    <p class="comment">' . $Reply["body"] . '</p>
+                    <p class="comment" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
                     <p class="likes">いいね: ' . $Reply["likeCount"] . '</p>
                     <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
