@@ -74,9 +74,14 @@ function getPosts() {
             echo '
             <br>
             <article>
-            <a href = "post.html?iD='.$Post["postID"].'"style = "text-decoration: none;"><font color="#000000">
-                <div class="wrapper">
-                    <div class="nameArea">
+            <a href = "post.html?iD='.$Post["postID"].'"style = "text-decoration: none;"><font color="#000000">';
+
+            if ($Post["genre"] !== 7) {
+                echo '<div class="wrapper">';
+            }if ($Post["genre"] == 7) {
+                echo '<div class="articleWrapper">';
+            }
+            echo'       <div class="nameArea">
                         <p class="genre">' . $genreeName[$Post["genre"]] . '</p>
                         <p class="username">' . $Post["idName"] . '</p>
                         <font size="2px">
@@ -88,7 +93,8 @@ function getPosts() {
             if ($Post["genre"] == 7) {
                 echo '<h1>' . $Post["title"] . '</h1><br>';
             }
-
+            
+            if($Post["genre"] !== 7){
             echo '
                     <p class="comment">' . $Post["body"] . '</p></font></a>';
 
@@ -138,11 +144,9 @@ function getPosts() {
                         <br><textarea class="replyTextArea" name="replyBody" style="width: 88%; height: 50%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
-                </div>
-
-            </article>
-            
-            ';
+                </div>';
+            }
+            echo'</article>';
         }
     } catch (Exception $e) {
         error_log("Error fetching posts: " . $e->getMessage());
