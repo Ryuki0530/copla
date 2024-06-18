@@ -88,8 +88,7 @@ function getPosts() {
                 echo '<h1>' . $Post["title"] . '</h1><br>';
             }
 
-            echo '
-                    <p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p>';
+            echo '<p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p>';
 
             if(!$Post["pic"]==''){
                 echo'<img src="../../../userImages/post/'.$Post["pic"].'" alt="" title="" width="96%" height="65%">';
@@ -141,10 +140,13 @@ function getPosts() {
             </article>
             
             ';
+
         }
     } catch (Exception $e) {
         error_log("Error fetching posts: " . $e->getMessage());
     }
+    echo "console_log('getPosts.php')";
+
 }
 
 getPosts();
