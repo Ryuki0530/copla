@@ -116,3 +116,12 @@ body {
   .excessiveReplies{
     display: none;
   }
+
+  .tag {
+    color: blue;
+    text-decoration: none;
+  }
+  
+  .tag:hover {
+    color: #1e90ff;
+  }
