@@ -93,7 +93,7 @@ function searchPosts() {
             }
 
             echo '
-                    <p class="comment style="white-space:pre-wrap;">' . $Post["body"] . '</p>
+                    <p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p>
                     <p class="likes">いいね: ' . $Post["likeCount"] . '</p>
                     <button class="likePostButton" data-post-id="' . $Post["postID"] . '">いいね</button>
                     <br>
@@ -114,7 +114,7 @@ function searchPosts() {
                             <time>' . $Reply["datetime"] . '</time>
                         </font>
                     </div>
-                    <p class="comment style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
+                    <p class="comment" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
                     <p class="likes">いいね: ' . $Reply["likeCount"] . '</p>
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
                 </div>
