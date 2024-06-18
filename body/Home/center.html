@@ -193,6 +193,9 @@
                 postsContainer.innerHTML = response;
                 offset = limit;
                 isLoading = false;
+
+                // ハッシュタグ取得
+                setHashTag();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error searching posts:", textStatus, errorThrown);
@@ -291,9 +294,10 @@
         console.log(elements);
         elements.forEach(element =>{
             console.log(element);
-            element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a href="#$1" class="tag">#$1</a>');
+            element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a onclick="searchPosts(\'$1\');" class="tag">#$1</a>');
         });   
     }
+
 </script>
 
 </body>
