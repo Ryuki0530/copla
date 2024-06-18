@@ -132,6 +132,9 @@
                 }
                 offset += limit;
                 isLoading = false;
+
+                // ハッシュタグを取得
+                setHashTag(); 
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Error getting posts:", textStatus, errorThrown);
@@ -279,6 +282,18 @@
             searchPosts(keyword); // キーワード検索を実行
         });
     });
+
+    // ハッシュタグを取得
+    // どこで呼び出す?
+    function setHashTag() {
+        console.log("HashFunction");
+        const elements = document.querySelectorAll("p.comment");
+        console.log(elements);
+        elements.forEach(element =>{
+            console.log(element);
+            element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a href="#$1" class="tag">#$1</a>');
+        });   
+    }
 </script>
 
 </body>

@@ -95,8 +95,9 @@ function getPosts() {
             }
             
             if($Post["genre"] !== 7){
-            echo '
-                    <p class="comment">' . $Post["body"] . '</p></font></a>';
+
+            echo '<p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
+
 
             if(!$Post["pic"]==''){
                 echo'<img src="../../../userImages/post/'.$Post["pic"].'" alt="" title="" width="96%" height="65%">';
@@ -122,7 +123,7 @@ function getPosts() {
                             <time>' . $Reply["datetime"] . '</time>
                         </font>
                     </div>
-                    <p class="comment">' . $Reply["body"] . '</p>
+                    <p class="comment" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
                     <p class="likes">いいね: ' . $Reply["likeCount"] . '</p>
                     <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
@@ -144,13 +145,18 @@ function getPosts() {
                         <br><textarea class="replyTextArea" name="replyBody" style="width: 88%; height: 50%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
+
                 </div>';
             }
             echo'</article>';
+
+
         }
     } catch (Exception $e) {
         error_log("Error fetching posts: " . $e->getMessage());
     }
+    echo "console_log('getPosts.php')";
+
 }
 
 getPosts();
