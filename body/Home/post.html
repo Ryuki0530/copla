@@ -16,6 +16,37 @@
     <!-- ここに投稿内容が表示されます -->
 </div>
 
+<div id="popupForm" class="popup-form">
+    <div class="popup-form-content">
+        <span id="closeFormButton" class="close">&times;</span>
+        <form id="postForm" enctype="multipart/form-data" method="POST">
+            <div id="titleForm" style="display: none;">
+                タイトル
+                <input type="text" id="title" name="title" style="font-size: 140%" maxlength="60">
+                <br><br> 内容<br>
+            </div>
+            <textarea id="comment" class="commentTextArea" name="comment" style="width: 100%; box-sizing: border-box; font-size: 200%" maxlength="1000"></textarea>
+            <br><br>
+            <label for="category">投稿カテゴリーを選択:</label>
+            <select id="category" name="category" style="font-size: 140%" onchange="showHideFormElement()">
+                <option value="2">授業</option>
+                <option value="3">部活</option>
+                <option value="4">研究室</option>
+                <option value="5">就活</option>
+                <option value="1">その他</option>
+                <option value="6">イベント</option>
+                <option value="7">記事投稿</option>
+            </select>
+            <br><br>
+            <input type="file" name="pic" accept="image/jpeg,image/png,image/gif">
+            <br><br>
+            <input class="submitButton" type="submit" value="投稿" name="submitButton" style="font-size: 140%">
+        </form>
+        
+        
+    </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="../scripts/postPop.js"></script>
 <script>
