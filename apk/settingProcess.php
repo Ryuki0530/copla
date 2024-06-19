@@ -25,9 +25,9 @@ if(isset($_POST['nameButton'])){
         try{
             
             //変更処理
-            $stmt = $pdo->prepare("UPDATE `users` SET `idName`= :newIdName  WHERE `idName` = :oldName");
+            $stmt = $pdo->prepare("UPDATE `users` SET `idName`= :newIdName  WHERE `userID` = :userID");
             $stmt->bindParam(':newIdName',$newIdName,PDO::PARAM_STR);
-            $stmt->bindParam(':oldName',$_SESSION['idName'],PDO::PARAM_STR);
+            $stmt->bindParam(':userID',$_SESSION['userID'],PDO::PARAM_STR);
             $stmt->execute();
             $_SESSION['idName'] = $newIdName;
             echo('<script>alert("ユーザー名を'.$newIdName.'に変更しました。");</script>');
@@ -57,9 +57,9 @@ if(isset($_POST['passButton'])){
     }
     if($checkCount3==0){
         //現在のパスワードでの認証
-        $pdo = new PDO('mysql:host='.$db_host.';dbname='.$db_name, $db_user, $db_pass);
-        $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `userName` = :userName");
-        $stmt->bindParam(':userName', $_SESSION['userName'], PDO::PARAM_STR);
+       
+        $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `userID` = :userID");
+        $stmt->bindParam(':userID', $_SESSION['userID'], PDO::PARAM_STR);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if($user && password_verify($oldUserPassword, $user['password'])){
@@ -68,13 +68,13 @@ if(isset($_POST['passButton'])){
             if($newUserPassword == $passwordCheck){
                 $newUserPassword = password_hash(trim($_POST['userPassword']), PASSWORD_DEFAULT);
                 try{
-                    $stmt = $pdo->prepare("UPDATE `users` SET `password`= :newUserPassword  WHERE `id` = :userID");
+                    $stmt = $pdo->prepare("UPDATE `users` SET `password`= :newUserPassword  WHERE `userID` = :userID");
                     $stmt->bindParam(':newUserPassword',$newUserPassword,PDO::PARAM_STR);
                     $stmt->bindParam(':userID',$_SESSION['userID'],PDO::PARAM_STR);
                     $stmt->execute();
                     echo('<script>alert("パスワードを変更しました。");</script>');
                 }catch(PDOException $e){
-                    //echo $e->getMessage();
+                    echo $e->getMessage();
                 }
             }else{echo('<script>alert("再入力されたパスワードが一致しません。");</script>');}
         }else{echo('<script>alert("現在のパスワードが一致しません。");</script>');}
