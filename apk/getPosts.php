@@ -155,7 +155,6 @@ function getPosts() {
     } catch (Exception $e) {
         error_log("Error fetching posts: " . $e->getMessage());
     }
-    echo "console_log('getPosts.php')";
 
 }
 

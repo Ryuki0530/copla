@@ -4,7 +4,7 @@ $pdo = null;
 $stmt = null;
 $check = 0;
 
-//echo("HELLO");
+
 
 require_once __DIR__ . '/../etc/Settings.php';
 //DB接続
