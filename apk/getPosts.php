@@ -74,7 +74,7 @@ function getPosts() {
             echo '
             <br>
             <article>
-            <a href = "post.html?iD='.$Post["postID"].'"style = "text-decoration: none;"><font color="#000000">';
+            <a href = "post.html?iD='.$Post["postID"].'"style = "text-decoration: none;" onclick="setHashTag()"><font color="#000000">';
 
             if ($Post["genre"] !== 7) {
                 echo '<div class="wrapper">';
@@ -96,7 +96,7 @@ function getPosts() {
             
             if($Post["genre"] !== 7){
 
-            echo '<p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
+            echo '<p class="comment pre-tag" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
 
 
             if(!$Post["pic"]==''){
@@ -123,7 +123,7 @@ function getPosts() {
                             <time>' . $Reply["datetime"] . '</time>
                         </font>
                     </div>
-                    <p class="comment" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
+                    <p class="comment pre-tag" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
                     <p class="likes">いいね: ' . $Reply["likeCount"] . '</p>
                     <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>

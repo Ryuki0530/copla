@@ -84,7 +84,7 @@ function singlePost() {
             }
 
             echo '
-                    <p class="comment">' . $post["body"] . '</p></font>';
+                    <p class="comment pre-tag">' . $post["body"] . '</p></font>';
 
             if ($post["pic"] != '') {
                 echo '<img src="../../../userImages/post/' . $post["pic"] . '" alt="" title="" width="96%" height="65%">';
@@ -116,7 +116,7 @@ function singlePost() {
                             <time>' . $reply["datetime"] . '</time>
                         </font>
                     </div>
-                    <p class="comment">' . $reply["body"] . '</p>
+                    <p class="comment pre-tag">' . $reply["body"] . '</p>
                     <p class="likes">いいね: ' . $reply["likeCount"] . '</p>
                     <input type="hidden" id="postIdOf' . $reply["repID"] . '" name="postId" value="' . $post["postID"] . '">
                     <button class="likeReplyButton" data-reply-id="' . $reply["repID"] . '">いいね</button>
