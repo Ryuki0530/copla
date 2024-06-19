@@ -23,7 +23,7 @@ function makeTubuyaki() {
             // ファイル名を取得
             $tmp_name = $_FILES["pic"]["tmp_name"];
             $fileName = $_FILES['pic']['name'];
-            $fileNewName = date("YmdHis") . "-" . $fileName;
+            $fileNewName = date("YmdHis") . "-" . $userID;
             $upload = '../../userImages/post/' . $fileNewName;
 
             // ディレクトリが存在しない場合は作成

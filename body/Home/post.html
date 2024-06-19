@@ -1,3 +1,8 @@
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const postID = urlParams.get('iD');
+</script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,35 +11,11 @@
     <title></title>
 </head>
 <body bgcolor="white">
-<div class="top">
-    <div class="search">
-        <form id="searchForm" method="GET" action="searchPosts.php" class="searchForm">
-            <input type="search" id="site-search" name="q" placeholder="投稿内容から検索"/>
-            <button type="submit" class="bt-sch">
-                <img src=".././resource/検索.png" width="15">
-            </button>
-            <br><br>
-        </form>
-    
-        <form id="genreSearchForm" class ="genreSearchForm">
-            ジャンル選択&nbsp;&nbsp;<select id="serByCategory" name="serByCategory" style="font-size: 100%" onchange="filterByGenre()">
-                <option value="">ALL</option><hr><hr>
-                <option value="2">授業</option>
-                <option value="3">部活</option>
-                <option value="4">研究室</option>
-                <option value="5">就活</option>
-                <option value="1">その他</option>
-                <option value="6">イベント</option>
-                <hr>
-                <option value="7">記事投稿</option>
-            </select>
-        </form>
-    </div>
-    <hr>
-</div>
+
 <div id="postsContainer">
     <!-- ここに投稿内容が表示されます -->
 </div>
+
 <div id="popupForm" class="popup-form">
     <div class="popup-form-content">
         <span id="closeFormButton" class="close">&times;</span>
@@ -65,6 +46,7 @@
         
     </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="../scripts/postPop.js"></script>
 <script>
@@ -121,9 +103,9 @@
         if (isLoading) return;
         isLoading = true;
         $.ajax({
-            url: "../../apk/getPosts.php",
+            url: "../../apk/singlePost.php",
             type: "GET",
-            data: { offset: offset, limit: limit },
+            data: { iD: postID },
             success: function (response) {
                 if (initialLoad) {
                     postsContainer.innerHTML = response;
@@ -132,9 +114,6 @@
                 }
                 offset += limit;
                 isLoading = false;
-
-                // ハッシュタグを取得
-                setHashTag(); 
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Error getting posts:", textStatus, errorThrown);
@@ -143,75 +122,11 @@
         });
     }
 
-    function openReply(openID){
-        var className = "repAt"+openID;
-        var elements = document.getElementsByClassName(className);
-        
-        var className2 = "repOpenerAt"+openID;
-        var elements2 = document.getElementsByClassName(className2);
-         
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].style.display = 'block';
-        }
-        for (var i = 0; i < elements2.length; i++) {
-            elements2[i].style.display = 'none';
-        }
-    }
-
-    function filterByGenre() {
-        const genre = document.getElementById('serByCategory').value;
-        getPostsByGenre(genre);
-    }
-
-    function getPostsByGenre(genre) {
-        if (isLoading) return;
-        isLoading = true;
-        $.ajax({
-            url: "../../apk/getPosts.php",
-            type: "GET",
-            data: { genre: genre, offset: 0, limit: limit },
-            success: function(response) {
-                postsContainer.innerHTML = response;
-                offset = limit;
-                isLoading = false;
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("Error getting posts:", textStatus, errorThrown);
-                isLoading = false;
-            }
-        });
-    }
-
-    function searchPosts(keyword) {
-        if (isLoading) return;
-        isLoading = true;
-        $.ajax({
-            url: "../../apk/searchPosts.php",
-            type: "GET",
-            data: { q: keyword, offset: 0, limit: limit },
-            success: function(response) {
-                postsContainer.innerHTML = response;
-                offset = limit;
-                isLoading = false;
-
-                // ハッシュタグ取得
-                setHashTag();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("Error searching posts:", textStatus, errorThrown);
-                isLoading = false;
-            }
-        });
-    }
 
     $(document).ready(function () {
         getPosts(true); // 初回読み込み
 
-        $(window).scroll(function() {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
-                getPosts();
-            }
-        });
+      
 
         $("#postForm").submit(function (event) {
             event.preventDefault(); // デフォルトのフォーム送信をキャンセル
@@ -285,21 +200,6 @@
             searchPosts(keyword); // キーワード検索を実行
         });
     });
-
-    // ハッシュタグを取得
-    // どこで呼び出す?
-    function setHashTag() {
-        console.log("HashFunction");
-        const elements = document.querySelectorAll("p.comment");
-        console.log(elements);
-        elements.forEach(element =>{
-            console.log(element);
-
-            element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a onclick="searchPosts(\'$1\');" class="tag">#$1</a>');
-        });   
-    }
-
-
 </script>
 
 </body>
