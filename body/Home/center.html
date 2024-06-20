@@ -10,9 +10,12 @@
     <div class="search">
         <form id="searchForm" method="GET" action="searchPosts.php" class="searchForm">
             <input type="search" id="site-search" name="q" placeholder="投稿内容から検索"/>
-            <button type="submit" class="bt-sch">
+            
+            <!-- <button type="submit" class="bt-sch">
                 <img src=".././resource/検索.png" width="15">
-            </button>
+            </button> -->
+            <!-- <input type="image" name="submit" src=".././resource/検索.png"/> -->
+             <input class="btn-sch" type="submit" value="検索" />
             <br><br>
         </form>
     
@@ -196,6 +199,8 @@
 
                 // ハッシュタグ取得
                 setHashTag();
+
+                scrollTop();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("Error searching posts:", textStatus, errorThrown);
@@ -297,6 +302,15 @@
 
             element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a onclick="searchPosts(\'$1\');" class="tag">#$1</a>');
         });   
+    }
+
+
+    // タグクリックでページ上部に移動
+    function scrollTop() {
+        window.scroll({
+            top: 0,
+            behavior: "smooth",
+        });
     }
 
 
