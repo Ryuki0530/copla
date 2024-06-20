@@ -341,7 +341,7 @@
             // コールバックで
             // aタグがついていない単語のみリンク適応
             element.innerHTML = element.innerHTML.replace(/#(\S+)/g, function(match, p1, offset, string) {
-                const before = string.slice(0, offset + 1);
+                const before = string.slice(0, offset);
                 const after = string.slice(offset + match.length);
 
                 console.log(`match = ${ match }, p1 = ${ p1 }, offset = ${ offset }, string = ${ string}`);
