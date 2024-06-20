@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
+session_start();
 
 function getPosts() {
     global $pdo, $postArray;
@@ -82,16 +83,17 @@ function getPosts() {
                 echo '<div class="articleWrapper">';
             }
             echo'       <div class="nameArea">
-                        <p class="genre">' . $genreeName[$Post["genre"]] . '</p>
-                        <p class="username">' . $Post["idName"] . '</p>
+                        <p class="genre">' . $genreeName[$Post["genre"]] . '
                         <font size="2px">
                             <time>' . $Post["datetime"] . '</time>
-                        </font>
+                        </font></p>
+                        <p class="username"><h3>' . $Post["idName"] . '</h3>
+                        </p>
                     </div>
             ';
 
             if ($Post["genre"] == 7) {
-                echo '<h1>' . $Post["title"] . '</h1><br>';
+                echo '<h1>' . $Post["title"] . '</h1><br>クリックして読む';
             }
             
             if($Post["genre"] !== 7){
@@ -114,20 +116,33 @@ function getPosts() {
                     echo '<div class="repAt' . $Post["postID"] . '" style="display: none;">';
                 }
                 echo "<hr>";
-                echo ($Reply["repID"]);
+                //echo ($Reply["repID"]);
                 echo '
                 <div class="reply">
                     <div class="nameArea">
-                        <p class="username">' . $Reply["idName"] . '</p>
+                        <p class="username"><h3>' . $Reply["idName"] . '</h3>
                         <font size="2px">
                             <time>' . $Reply["datetime"] . '</time>
-                        </font>
+                        </font></p>
                     </div>
                     <p class="comment" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
-                    <p class="likes">いいね: ' . $Reply["likeCount"] . '</p>
-                    <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">
-                    <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
-                </div>
+                    <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">';
+
+                    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `reply_likes` WHERE `repID` = :rid AND `userID` = :usid");
+                    $stmt->bindParam(':rid',$Reply["repID"],PDO::PARAM_INT);
+                    $stmt->bindParam(':usid',$_SESSION["userID"],PDO::PARAM_INT);
+                    $stmt->execute();
+                    $favCount = $stmt->fetchColumn();
+
+                    if($favCount == 0){
+                        echo'<button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">♡</button>: ' . $Reply["likeCount"] . '</p>';   
+                    }else{
+                        echo'♡:' . $Reply["likeCount"] . '</p>';
+                    }
+                    
+                    
+
+                echo'</div>
                 <br>';
 
                 $count++;

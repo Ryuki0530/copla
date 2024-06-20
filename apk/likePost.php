@@ -20,11 +20,18 @@ function likePost() {
 
         $stmt->execute();
 
-        echo "Success";
+        //echo "Success";
+
+        $stmt = $pdo->prepare("UPDATE posts SET fav = fav + 1 WHERE postID = :postID;");
+        if (!$stmt) {
+            throw new Exception("Prepare failed: " . implode(" ", $pdo->errorInfo()));
+        }
+        $stmt->bindParam(':postID', $postID, PDO::PARAM_INT);
+        $stmt->execute();
 
     } catch (PDOException $e) {
         if ($e->getCode() == 23000) {
-            echo "You have already liked this post.";
+            echo '<script>alert("既にいいねしています。")</script>';
         } else {
             echo "Error: " . $e->getMessage();
         }
