@@ -226,8 +226,8 @@
                 const before = string.slice(0, offset);
                 const after = string.slice(offset + match.length);
 
-                // console.log(`match = ${ match }, p1 = ${ p1 }, offset = ${ offset }, string = ${ string}`);
-                // console.log(`before = ${ before }, after = ${ after}`);
+                console.log(`match = ${ match }, p1 = ${ p1 }, offset = ${ offset }, string = ${ string}`);
+                console.log(`before = ${ before }, after = ${ after}`);
 
                 // もしaタグで囲まれていない場合
                 if (!after.endsWith('</span>')) { // && !after.startsWith('<a')) {
