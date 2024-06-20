@@ -168,9 +168,9 @@ body {
     text-decoration: none;
   }
   
-  .tag:hover {
+  /* .tag:hover {
     color: #1e90ff;
-  }
+  } */
 
   img {
     object-fit: contain;
