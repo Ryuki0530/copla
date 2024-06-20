@@ -204,7 +204,7 @@
     });
 
     function setHashTag() {
-        console.log("HashFunction in post.html");
+        console.log("HashFunction");
 
         // まだハッシュタグ化していない要素を取得
         const elements = document.querySelectorAll("p.pre-tag");
@@ -215,7 +215,8 @@
             // ハッシュタグ化したことを記録
             // element.classList.remove('pre-tag');
 
-            console.log(element);
+            // console.log(element);
+
             // element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a href="#$1" class="tag">#$1</a>');
 
 
@@ -229,14 +230,26 @@
                 // console.log(`before = ${ before }, after = ${ after}`);
 
                 // もしaタグで囲まれていない場合
-                if (!before.startsWith('<a')) { // && !after.startsWith('<a')) {
-                    return `<a href="#${ p1 }" class="tag">${ match }</a>`;
+                if (!after.endsWith('</span>')) { // && !after.startsWith('<a')) {
+                    // return `<a href="#${ p1 }" class="tag">${ match }</a>`;
+                    return `<span class="tag">${ match }</span>`;
                 }
                 return match;
             });
-        });   
-    }
-</script>
 
+
+            // element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a onclick="searchPosts(\'$1\');" class="tag">#$1</a>');
+
+        });   
+
+
+        // 恐らくajaxで追加読み込みした投稿の位置は
+        // ブラウザバックで、追加投稿が読み込まれていないためエラーになるかも
+        // 最初に表示される上位20件については、問題なく起動する
+        scrollTo(0, scrollPosition);
+        scrollPosition = null;
+    }
+
+</script>
 </body>
 </html>
