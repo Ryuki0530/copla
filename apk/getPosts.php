@@ -99,6 +99,7 @@ function getPosts() {
             echo '<p class="comment pre-tag" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
 
 
+
             if(!$Post["pic"]==''){
                 echo'<img src="../../../userImages/post/'.$Post["pic"].'" alt="" title="" width="96%" height="65%">';
             }
@@ -145,6 +146,7 @@ function getPosts() {
                         <br><textarea class="replyTextArea" name="replyBody" style="width: 88%; height: 50%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
+
 
                 </div>';
             }
