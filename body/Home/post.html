@@ -241,13 +241,6 @@
             // element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a onclick="searchPosts(\'$1\');" class="tag">#$1</a>');
 
         });   
-
-
-        // 恐らくajaxで追加読み込みした投稿の位置は
-        // ブラウザバックで、追加投稿が読み込まれていないためエラーになるかも
-        // 最初に表示される上位20件については、問題なく起動する
-        scrollTo(0, scrollPosition);
-        scrollPosition = null;
     }
 
 </script>
