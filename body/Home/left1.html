@@ -19,23 +19,23 @@
           </a>
         </li>
         <li class="list">
-          <a href="">
+          <a href="javascript:void(0);" onclick="loadCenterContent('6');">
             <span class="icon"><img src=".././resource/イベント.png" alt=""></span>
             <span class="title">イベント</span>
           </a>
         </li>
         <li class="list">
-          <a href="">
+          <a href="javascript:void(0);" onclick="loadCenterContent('7');">
             <span class="icon"><img src=".././resource/記事.png" alt=""></span>
             <span class="title">記事</span>
-          </a>
+          </a>          
         </li>
-        <li class="list">
+        <!--<li class="list">
           <a href="">
             <span class="icon"><img src=".././resource/設定.png" alt=""></span>
             <span class="title">設定</span>
           </a>
-        </li>
+        </li>-->
         <li class="list">
           <a href="../Login/index.php" class="login-menu">
             <span class="icon"><img src=".././resource/ログイン.png" alt=""></span>
@@ -66,5 +66,18 @@
     </div>
     -->
     <script src="../scripts/leftPostPop.js"></script>
+    <script>
+      function loadCenterContent(genreValue) {
+        centerFrame = parent.frames['centerFrame'];
+        centerFrame.location.href = 'center.html';
+        var frame = parent.centerFrame;
+        setTimeout(function() {
+          var input_form = frame.document.getElementById('serByCategory');
+          input_form.value = genreValue;
+          window.parent.DofilterByGenre();
+        }, 500);
+        
+      }
+    </script>
   </body>
 </html>

@@ -76,29 +76,45 @@ function searchPosts() {
         }
 
         foreach ($postArray as $Post) {
-            echo '<br>
+            echo '
+            <br>
             <article>
-                <div class="wrapper">
-                    <div class="nameArea">
-                        <p class="genre">' . $genreeName[$Post["genre"]] . '</p>
-                        <p class="username">' . $Post["idName"] . '</p>
+            <a href = "post.html?iD='.$Post["postID"].'"style = "text-decoration: none;"><font color="#000000">';
+
+            if ($Post["genre"] !== 7) {
+                echo '<div class="wrapper">';
+            }if ($Post["genre"] == 7) {
+                echo '<div class="articleWrapper">';
+            }
+            echo'       <div class="nameArea">
+                        <p class="genre">' . $genreeName[$Post["genre"]] . '
                         <font size="2px">
                             <time>' . $Post["datetime"] . '</time>
-                        </font>
+                        </font></p>
+                        <p class="username"><h3>' . $Post["idName"] . '</h3>
+                        </p>
                     </div>
             ';
 
             if ($Post["genre"] == 7) {
-                echo '<h1>' . $Post["title"] . '</h1><br>';
+                echo '<h1>' . $Post["title"] . '</h1><br>クリックして読む';
+            }
+            
+            if($Post["genre"] !== 7){
+
+
+            echo '<p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
+
+
+            if(!$Post["pic"]==''){
+                echo'<img src="../../../userImages/post/'.$Post["pic"].'" alt="" title="" width="96%" height="65%">';
             }
 
-            echo '
+            echo'<br>
+            <button class="likePostButton" data-post-id="' . $Post["postID"] . '">♡</button>   
+            : ' . $Post["likeCount"] . '
 
-                    <p class="comment pre-tag" style="white-space:pre-wrap;">' . $Post["body"] . '</p>
-
-                    <p class="likes">いいね: ' . $Post["likeCount"] . '</p>
-                    <button class="likePostButton" data-post-id="' . $Post["postID"] . '">いいね</button>
-                    <br>
+            
             ';
 
             $count = 0;
@@ -107,7 +123,7 @@ function searchPosts() {
                     echo '<div class="repAt' . $Post["postID"] . '" style="display: none;">';
                 }
                 echo "<hr>";
-                echo ($Reply["repID"]);
+                //echo ($Reply["repID"]);
                 echo '
                 <div class="reply">
                     <div class="nameArea">
@@ -117,9 +133,10 @@ function searchPosts() {
                         </font>
                     </div>
 
-                    <p class="comment pre-tag" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
+                    p class="comment pre-tag" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
 
                     <p class="likes">いいね: ' . $Reply["likeCount"] . '</p>
+                    <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
                 </div>
                 <br>';
@@ -139,9 +156,12 @@ function searchPosts() {
                         <br><textarea class="replyTextArea" name="replyBody" style="width: 88%; height: 50%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
-                </div>
-            </article>
-            ';
+
+                </div>';
+            }
+            echo'</article>';
+
+
         }
     } catch (Exception $e) {
         error_log("Error fetching posts: " . $e->getMessage());

@@ -3,7 +3,7 @@
     require_once __DIR__ . '/../etc/Settings.php';    
 
     if(isset($_POST['submit'])){
-        $userID = trim($_POST['userID']);
+        $userID = mb_strtolower(trim($_POST['userID']));
         $password = trim($_POST['userPassword']);
 
         try{

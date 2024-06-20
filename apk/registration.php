@@ -5,7 +5,7 @@ require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';   
 
 if(isset($_POST['signin'])){
-    $userID = trim($_POST['userID']);
+    $userID = mb_strtolower(trim($_POST['userID']));
     $idName = trim($_POST['idName']);
     $userPassword = $_POST['userPassword'];
     $userPassword2 = $_POST['userPassword2'];
