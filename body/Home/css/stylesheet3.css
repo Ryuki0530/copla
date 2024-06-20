@@ -36,3 +36,7 @@ body {
 .trend:hover{
     color: #1e90ff;
 }
+
+img {
+    object-fit: contain;
+}

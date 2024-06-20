@@ -171,3 +171,7 @@ body {
   .tag:hover {
     color: #1e90ff;
   }
+
+  img {
+    object-fit: contain;
+  }

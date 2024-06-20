@@ -127,6 +127,10 @@ button{
     position: relative;
   }
 
+img {
+    object-fit: contain;
+}
+
 /* leftが270pxより小さくなったら */
 @media screen and (max-width: 270px) {
 
