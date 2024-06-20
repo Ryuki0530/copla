@@ -114,6 +114,8 @@
                 }
                 offset += limit;
                 isLoading = false;
+
+                setHashTag();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Error getting posts:", textStatus, errorThrown);
@@ -200,6 +202,40 @@
             searchPosts(keyword); // キーワード検索を実行
         });
     });
+
+    function setHashTag() {
+        console.log("HashFunction in post.html");
+
+        // まだハッシュタグ化していない要素を取得
+        const elements = document.querySelectorAll("p.pre-tag");
+
+        // console.log(elements);
+
+        elements.forEach(element =>{
+            // ハッシュタグ化したことを記録
+            // element.classList.remove('pre-tag');
+
+            console.log(element);
+            // element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a href="#$1" class="tag">#$1</a>');
+
+
+            // コールバックで
+            // aタグがついていない単語のみリンク適応
+            element.innerHTML = element.innerHTML.replace(/#(\S+)/g, function(match, p1, offset, string) {
+                const before = string.slice(0, offset);
+                const after = string.slice(offset + match.length);
+
+                // console.log(`match = ${ match }, p1 = ${ p1 }, offset = ${ offset }, string = ${ string}`);
+                // console.log(`before = ${ before }, after = ${ after}`);
+
+                // もしaタグで囲まれていない場合
+                if (!before.startsWith('<a')) { // && !after.startsWith('<a')) {
+                    return `<a href="#${ p1 }" class="tag">${ match }</a>`;
+                }
+                return match;
+            });
+        });   
+    }
 </script>
 
 </body>

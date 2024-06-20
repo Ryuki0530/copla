@@ -75,7 +75,7 @@ function getPosts() {
             echo '
             <br>
             <article>
-            <a href = "post.html?iD='.$Post["postID"].'"style = "text-decoration: none;"><font color="#000000">';
+            <a href = "post.html?iD='.$Post["postID"].'"style = "text-decoration: none;" onclick="setHashTag()"><font color="#000000">';
 
             if ($Post["genre"] !== 7) {
                 echo '<div class="wrapper">';
@@ -98,7 +98,8 @@ function getPosts() {
             
             if($Post["genre"] !== 7){
 
-            echo '<p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
+            echo '<p class="comment pre-tag" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
+
 
 
             if(!$Post["pic"]==''){
@@ -125,6 +126,7 @@ function getPosts() {
                             <time>' . $Reply["datetime"] . '</time>
                         </font></p>
                     </div>
+
                     <p class="comment" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
                     <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">';
 
@@ -160,6 +162,7 @@ function getPosts() {
                         <br><textarea class="replyTextArea" name="replyBody" style="width: 88%; height: 50%; box-sizing: border-box; font-size: 200%" maxlength="300"></textarea>
                         <input class="submitButton" type="submit" value="返信" style="font-size: 100%">
                     </form>
+
 
                 </div>';
             }

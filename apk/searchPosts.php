@@ -102,6 +102,7 @@ function searchPosts() {
             
             if($Post["genre"] !== 7){
 
+
             echo '<p class="comment" style="white-space:pre-wrap;">' . $Post["body"] . '</p></font></a>';
 
 
@@ -112,6 +113,8 @@ function searchPosts() {
             echo'<br>
             <button class="likePostButton" data-post-id="' . $Post["postID"] . '">♡</button>   
             : ' . $Post["likeCount"] . '
+
+            
             ';
 
             $count = 0;
@@ -129,7 +132,9 @@ function searchPosts() {
                             <time>' . $Reply["datetime"] . '</time>
                         </font>
                     </div>
-                    <p class="comment" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
+
+                    p class="comment pre-tag" style="white-space:pre-wrap;">' . $Reply["body"] . '</p>
+
                     <p class="likes">いいね: ' . $Reply["likeCount"] . '</p>
                     <input type="hidden" id="postIdOf' . $Reply["repID"] . '" name="postId" value="'.$Post["postID"].'">
                     <button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">いいね</button>
