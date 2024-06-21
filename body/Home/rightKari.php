@@ -31,7 +31,7 @@ function getPosts() {
         usort($latestPosts, function($a, $b) {
             return $b['fav'] - $a['fav'];
         });
-        $topPosts = array_slice($latestPosts, 0, 6);
+        $topPosts = array_slice($latestPosts, 0, 4);
 
         foreach ($topPosts as &$Post) {
             $userID = $Post['userID'];
@@ -75,7 +75,7 @@ function getPosts() {
         // Step 4: Display the posts
         $k =1;
         foreach ($topPosts as $Post) {
-            if($k<=5){    
+            if($k<=3){    
             echo '
             <br>
             <article>

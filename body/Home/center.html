@@ -9,6 +9,7 @@
     var scrollPosition; 
     var STORAGE_KEY = "scrollY";
     
+    
     function saveScrollPosition(){
         console.log("SCROLL");
         scrollPosition = window.pageYOffset; 
@@ -116,33 +117,45 @@
     }
 
     async function likePost(postID) {
-        try {
-            let response = await $.ajax({
-                url: "../../apk/likePost.php",
-                type: "POST",
-                data: { postID: postID }
-            });
+    try {
+        let response = await $.ajax({
+            url: "../../apk/likePost.php",
+            type: "POST",
+            data: { postID: postID },
+            dataType: "json"
+        });
+
+        if (response.error) {
+            alert(response.error);
+        } else {
             console.log(response);
             offset = 0;
             getPosts(true);
-        } catch (error) {
-            console.error("Error liking post:", error);
         }
+    } catch (error) {
+        console.error("Error liking post:", error);
     }
+}
+
 
     async function likeReply(replyID) {
-        try {
-            let response = await $.ajax({
-                url: "../../apk/likeReply.php",
-                type: "POST",
-                data: { repID: replyID }
-            });
+    try {
+        let response = await $.ajax({
+            url: "../../apk/likeReply.php",
+            type: "POST",
+            data: { repID: replyID },
+            dataType: "json"
+        });
+        if (response.error) {
+            alert(response.error);
+        } else {
             console.log(response);
             offset = 0;
             getPosts(true);
-        } catch (error) {
-            console.error("Error liking reply:", error);
         }
+    } catch (error) {
+        console.error("Error liking reply:", error);
+    }
     }
 
     function getPosts(initialLoad = false) {
@@ -322,6 +335,8 @@
     });
 
     function setHashTag() {
+
+
         console.log("HashFunction");
 
         // まだハッシュタグ化していない要素を取得
