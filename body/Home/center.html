@@ -333,7 +333,7 @@
             // ハッシュタグ化したことを記録
             // element.classList.remove('pre-tag');
 
-            console.log(element);
+            // console.log(element);
 
             // element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a href="#$1" class="tag">#$1</a>');
 
@@ -348,8 +348,9 @@
                 // console.log(`before = ${ before }, after = ${ after}`);
 
                 // もしaタグで囲まれていない場合
-                if (!before.startsWith('<a')) { // && !after.startsWith('<a')) {
-                    return `<a href="#${ p1 }" class="tag">${ match }</a>`;
+                if (!after.endsWith('</span>')) { // && !after.startsWith('<a')) {
+                    // return `<a href="#${ p1 }" class="tag">${ match }</a>`;
+                    return `<span class="tag">${ match }</span>`;
                 }
                 return match;
             });
