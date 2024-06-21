@@ -92,11 +92,24 @@ function singlePost() {
                 echo '<img src="../../../userImages/post/' . $post["pic"] . '" alt="" title="" width="96%" height="65%">';
             }
 
-            echo '<br>
-            <button class="likePostButton" data-post-id="' . $post["postID"] . '">♡</button>   
-            : ' . $post["likeCount"] . '
-            ';
 
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM `post_likes` WHERE `postID` = :pid AND `userID` = :usid");
+            $stmt->bindParam(':pid',$post["postID"],PDO::PARAM_INT);
+            $stmt->bindParam(':usid',$_SESSION["userID"],PDO::PARAM_INT);
+            $stmt->execute();
+            $favCount0 = $stmt->fetchColumn();
+
+            //if($favCount0 == 0){
+                echo'<br>
+                <button class="likePostButton" data-post-id="' . $post["postID"] . '"><img src=".././resource/いいね.png" width="35" ></button>   
+                : ' . $post["likeCount"] . '
+                ';
+            /*}else{
+                echo'<br>
+               <img src=".././resource/いいね済み.png" width="35" >
+                : ' . $post["likeCount"] . '
+                ';    
+            }*/
             echo '
             <div class="reply-form">
                 <form class="replyForm" data-post-id="' . $post["postID"] . '">
@@ -128,8 +141,12 @@ function singlePost() {
                     $stmt->execute();
                     $favCount = $stmt->fetchColumn();
 
-                    echo'<button class="likeReplyButton" data-reply-id="' . $reply["repID"] . '">♡</button>: ' . $reply["likeCount"] . '</p>';   
-                   
+                
+                    if($favCount == 0){
+                        echo'<button class="likeReplyButton" data-reply-id="' . $reply["repID"] . '"><img src=".././resource/いいね.png" width="35" ></button>: ' . $reply["likeCount"] . '</p>';   
+                    }else{
+                        echo'<img src=".././resource/いいね済み.png" width="35" >' . $reply["likeCount"] . '</p>';
+                    }
 
                echo'</div>
                 <br>';

@@ -9,8 +9,6 @@ if(isset($_POST['signin'])){
     $idName = trim($_POST['idName']);
     $userPassword = $_POST['userPassword'];
     $userPassword2 = $_POST['userPassword2'];
-
-    echo $userID.$idName.$userPassword.$userPassword2;
     
     if (!empty($userID) && !empty($idName) && !empty($userPassword) && !empty($userPassword2)) {
         try {
@@ -43,7 +41,7 @@ if(isset($_POST['signin'])){
                         echo('<script>alert("再入力のパスワードが一致しません。");</script>');
                     }
                 } else {
-                    echo('<script>alert("この学生は登録済みです。");</script>');
+                    echo('<script>alert("この学生は登録済みです。心当たりのない方は、copla2024tdu@gmail.comに連絡してください。");</script>');
                 }
             } else {
                 echo('<script>alert("有効な学籍番号を入力してください。");</script>');

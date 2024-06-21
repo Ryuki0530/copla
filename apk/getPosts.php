@@ -106,10 +106,26 @@ function getPosts() {
                 echo'<img src="../../../userImages/post/'.$Post["pic"].'" alt="" title="" width="96%" height="65%">';
             }
 
-            echo'<br>
-            <button class="likePostButton" data-post-id="' . $Post["postID"] . '">♡</button>   
-            : ' . $Post["likeCount"] . '
-            ';
+
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM `post_likes` WHERE `postID` = :pid AND `userID` = :usid");
+            $stmt->bindParam(':pid',$Post["postID"],PDO::PARAM_INT);
+            $stmt->bindParam(':usid',$_SESSION["userID"],PDO::PARAM_INT);
+            $stmt->execute();
+            $favCount0 = $stmt->fetchColumn();
+
+            //if($favCount0 == 0){
+                echo'<br>
+                <button class="likePostButton" data-post-id="' . $Post["postID"] . '"><img src=".././resource/いいね.png" width="35" ></button>   
+                : ' . $Post["likeCount"] . '
+                ';
+            //}else{
+              //  echo'<br>
+              // <img src=".././resource/いいね済み.png" width="35" >
+               // : ' . $Post["likeCount"] . '
+                //';    
+            //}
+
+            
 
             $count = 0;
             foreach ($Post['replies'] as $Reply) {
@@ -136,11 +152,11 @@ function getPosts() {
                     $stmt->execute();
                     $favCount = $stmt->fetchColumn();
 
-                    if($favCount == 0){
-                        echo'<button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '">♡</button>: ' . $Reply["likeCount"] . '</p>';   
-                    }else{
-                        echo'♡:' . $Reply["likeCount"] . '</p>';
-                    }
+                    //if($favCount == 0){
+                        echo'<button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '"><img src=".././resource/いいね.png" width="35" ></button>: ' . $Reply["likeCount"] . '</p>';   
+                    //}else{
+                      //  echo'<img src=".././resource/いいね済み.png" width="35" >' . $Reply["likeCount"] . '</p>';
+                    //}
                     
                     
 
