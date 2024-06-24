@@ -4,23 +4,17 @@ require_once __DIR__ . '/../apk/connectDB.php';
 require_once __DIR__ . '/../etc/Settings.php';
 
 function likeReply() {
-    echo "いいね受け取った";
     global $pdo;
     if (!isset($_SESSION['userID'])) {
-        echo "ログインしてください。";
-        
+        echo json_encode(['error' => 'ログインしてください。']);
         exit;
     }
 
     $userID = $_SESSION['userID'];
-    //echo $userID;
     $repID = $_POST['repID'];
-    //echo $repID;
-    // デバッグ出力
-    //error_log("Received repID: " . $repID);
 
     if (!isset($repID) || !is_numeric($repID)) {
-        echo "無効なrepIDです。";
+        echo json_encode(['error' => '無効なrepIDです。']);
         return;
     }
 
@@ -35,22 +29,22 @@ function likeReply() {
 
         $stmt->execute();
 
-        echo "Success";
+        echo json_encode(['success' => true]);
 
     } catch (PDOException $e) {
         if ($e->getCode() == 23000) {
-            echo "もういいねしています.";
+            echo json_encode(['error' => '既にいいねをしています。']);
         } else {
-            echo "Error: " . $e->getMessage();
+            echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
         }
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
     }
 }
 
 if (isset($_POST['repID'])) {
     likeReply();
 } else {
-    echo "POSTデータがありません。";
+    echo json_encode(['error' => 'POSTデータがありません。']);
 }
 ?>

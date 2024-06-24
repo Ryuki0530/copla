@@ -215,8 +215,9 @@ body {
     background: linear-gradient(to right, #f4faff,#f4faff, #d7e5f1,#89caff);
     /* border: 1px solid black; */
     border-radius: 30px 30px;
-    /* box-shadow:#00008b; */
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    border-radius: 10px 10px;
+    box-shadow:#00008b;
 
 }
 
@@ -254,7 +255,18 @@ body {
   
   /* .tag:hover {
     color: #1e90ff;
-  } */
+} */
+  }
+
+  .likePostButton{
+    border: none;
+    background-color: white;
+  }
+
+  .likeReplyButton{
+    border: none;
+    background-color: white;
+
 
   img {
     object-fit: contain;
