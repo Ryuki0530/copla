@@ -40,19 +40,30 @@
             <br><br>
         </form>
     
-        <form id="genreSearchForm" class ="genreSearchForm">
-            ジャンル選択&nbsp;&nbsp;<select id="serByCategory" name="serByCategory" style="font-size: 100%" onchange="filterByGenre()">
-                <option value="">ALL</option><hr><hr>
-                <option value="2">授業</option>
-                <option value="3">部活</option>
-                <option value="4">研究室</option>
-                <option value="5">就活</option>
-                <option value="1">その他</option>
-                <option value="6">イベント</option>
-                <hr>
-                <option value="7">記事投稿</option>
-            </select>
-        </form>
+        <div class="top-menu">
+            <div class="trend">
+                <h4>今のトレンド</h4>
+                <p onClick="searchPosts('研究室')">#研究室</p>
+                <p onClick="searchPosts('ランチ')">#ランチ</p>
+                <p onClick="searchPosts('期末')">#期末</p>
+            </div>
+    
+            <div class="genreForm">
+                <form id="genreSearchForm" class ="genreSearchForm">
+                    ジャンル選択&nbsp;&nbsp;<select id="serByCategory" name="serByCategory" style="font-size: 100%" onchange="filterByGenre()">
+                        <option value="">ALL</option><hr><hr>
+                        <option value="2">授業</option>
+                        <option value="3">部活</option>
+                        <option value="4">研究室</option>
+                        <option value="5">就活</option>
+                        <option value="1">その他</option>
+                        <option value="6">イベント</option>
+                        <hr>
+                        <option value="7">記事投稿</option>
+                    </select>
+                </form>
+            </div>
+        </div>
     </div>
     <hr>
 </div>
@@ -226,6 +237,7 @@
     }
 
     function searchPosts(keyword) {
+        // console.log("GET"+keyword+"\n");
         if (isLoading) return;
         isLoading = true;
         $.ajax({
