@@ -57,10 +57,34 @@ body{
     width: 100%;
 }
 
+.top-menu {
+    display: flex;
+    justify-content: space-between;
+}
+
+.trend {
+    display: flex;
+}
+
+.trend p {
+    margin: auto 10px;
+    color: blue;
+    cursor: pointer;
+}
+
+.trend p:hover {
+    color:rgb(106, 106, 255);
+}
+
+.genreForm {
+    margin: auto 10px;
+}
+
 .genreSearchForm {
     flex-grow: 1;
     font-size: 140%;
 }
+
 .searchForm {
     flex-grow: 9;
     padding: 10px;
