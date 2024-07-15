@@ -6,7 +6,7 @@ session_start();
 function getPosts() {
     global $pdo, $postArray;
 
-    $genreeName =  ['NULL','その他','授業','部活・サークル','研究室','就活','イベント','記事'];
+    $genreeName =  ['NULL','その他','授業','部活・サークル','研究室','就活','感想受付','記事'];
 
     $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
@@ -153,7 +153,7 @@ function getPosts() {
                     $favCount = $stmt->fetchColumn();
 
                     //if($favCount == 0){
-                        echo'<button class="likeReplyButton" data-reply-id="' . $Reply["repID"] . '"><img src=".././resource/いいね.png" width="35" ></button>: ' . $Reply["likeCount"] . '</p>';   
+                        echo'<button data-reply-id="' . $Reply["repID"] . '"><img src=".././resource/いいね.png" width="35" ></button>: ' . $Reply["likeCount"] . '</p>';   
                     //}else{
                       //  echo'<img src=".././resource/いいね済み.png" width="35" >' . $Reply["likeCount"] . '</p>';
                     //}

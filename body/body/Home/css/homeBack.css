@@ -1,0 +1,79 @@
+html, body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  .frame {
+    border: none;
+    height: 100%;
+  }
+  #left {
+    /* width: 20%; */
+    width: 30%;
+  }
+  #center {
+    /* width: 50%; */
+    width: 65%;
+  }
+  #right {
+    flex-grow: 1;
+  }
+
+
+
+body {
+    width: 100%;
+    height: 100%;
+    background:linear-gradient(45deg, #b7b8e6,#ffffff,#bfffb9);/*グラデーションを定義*/
+    background-size: 200% 200%;/*サイズを大きくひきのばす*/
+    animation: bggradient 25s ease infinite;
+  }
+  
+  @keyframes bggradient{
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+.left-center-content {
+  width: 75%;
+}
+
+@media screen and (max-width: 900px) {
+  /* ここに横幅が900px以下の時に発動するスタイルを記述 */
+  .left-center-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    }
+
+  #left {
+    width: 100%;
+    /* height: 10vh; */
+    height: 10%;
+    /* height: 100vh; */
+  }
+
+  /* もしログイン画面のときは、centerを非表示にしたい */
+  /* ログイン後またはログイン画面をキャンセルしたらもとに戻す */
+  #center {
+    width: 100%;
+    /* width: 0%; */
+    height: 90%;
+  }
+
+  #right {
+    width: 0%;
+  }
+
+  .active {
+    height: 100% !important;
+  }
+}

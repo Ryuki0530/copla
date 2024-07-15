@@ -5,7 +5,7 @@ require_once __DIR__ . '/../etc/Settings.php';
 function searchPosts() {
     global $pdo, $postArray;
 
-    $genreeName = ['NULL', 'その他', '授業', '部活・サークル', '研究室', '就活', 'イベント', '記事'];
+    $genreeName = ['NULL', 'その他', '授業', '部活・サークル', '研究室', '就活', '感想受付', '記事'];
     $query = isset($_GET['q']) ? trim($_GET['q']) : '';
     $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
