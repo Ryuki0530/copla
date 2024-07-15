@@ -48,7 +48,7 @@
                 <option value="4">研究室</option>
                 <option value="5">就活</option>
                 <option value="1">その他</option>
-                <option value="6">感想受付</option>
+                <option value="6">イベント</option>
                 <hr>
                 <option value="7">記事投稿</option>
             </select>
@@ -72,12 +72,12 @@
             <br><br>
             <label for="category">投稿カテゴリーを選択:</label>
             <select id="category" name="category" style="font-size: 140%" onchange="showHideFormElement()">
-                <option value="1">その他</option>
-		<option value="2">授業</option>
+                <option value="2">授業</option>
                 <option value="3">部活</option>
                 <option value="4">研究室</option>
                 <option value="5">就活</option>
-                <option value="6">感想受付</option>
+                <option value="1">その他</option>
+                <option value="6">イベント</option>
                 <option value="7">記事投稿</option>
             </select>
             <br><br>
@@ -146,7 +146,6 @@
             data: { repID: replyID },
             dataType: "json"
         });
-        
         if (response.error) {
             alert(response.error);
         } else {
@@ -395,6 +394,5 @@
 
 
 </script>
-
 </body>
 </html>

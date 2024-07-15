@@ -1,0 +1,66 @@
+
+.fsize{
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .container {
+    text-align: center;
+    padding-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 90%; /* 必要に応じて幅を調整 */
+    margin: auto; /* コンテンツを中央に配置 */
+    box-sizing: border-box;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 93%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #00bfff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 5px #00008b;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #87cefa;
+  }
+
+  button[type="submit"]:active {
+    box-shadow: none;
+    top: 5px;
+    position: relative;
+  }
+
+  .regist{
+    text-decoration: none;
+  }
+
+  .regist:hover{
+    color: #1e90ff;
+  }
+
+ 
+  /*========= body背景色の変化CSS ===============*/
+  
+  

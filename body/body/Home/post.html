@@ -1,3 +1,8 @@
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const postID = urlParams.get('iD');
+</script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,60 +10,12 @@
     <meta charset="utf-8">
     <title></title>
 </head>
-<script>
-    var scrollPosition; 
-    var STORAGE_KEY = "scrollY";
-    
-    
-    function saveScrollPosition(){
-        console.log("SCROLL");
-        scrollPosition = window.pageYOffset; 
-        localStorage.setItem(STORAGE_KEY, scrollPosition);
-    }
-    
-    window.addEventListener("load", function(){
-        scrollPosition = localStorage.getItem(STORAGE_KEY);
-        if(scrollPosition !== null){
-            console.log("Back to the before");
-            scrollTo(0, scrollPosition);
-        }
-        window.addEventListener("scroll", saveScrollPosition, false);
-    });
-
-</script>
 <body bgcolor="white">
-<div class="top">
-    <div class="search">
-        <form id="searchForm" method="GET" action="searchPosts.php" class="searchForm">
-            <input type="search" id="site-search" name="q" placeholder="投稿内容から検索"/>
-            
-            <!-- <button type="submit" class="bt-sch">
-                <img src=".././resource/検索.png" width="15">
-            </button> -->
-            <!-- <input type="image" name="submit" src=".././resource/検索.png"/> -->
-             <input class="btn-sch" type="submit" value="検索" />
-            <br><br>
-        </form>
-    
-        <form id="genreSearchForm" class ="genreSearchForm">
-            ジャンル選択&nbsp;&nbsp;<select id="serByCategory" name="serByCategory" style="font-size: 100%" onchange="filterByGenre()">
-                <option value="">ALL</option><hr><hr>
-                <option value="2">授業</option>
-                <option value="3">部活</option>
-                <option value="4">研究室</option>
-                <option value="5">就活</option>
-                <option value="1">その他</option>
-                <option value="6">感想受付</option>
-                <hr>
-                <option value="7">記事投稿</option>
-            </select>
-        </form>
-    </div>
-    <hr>
-</div>
+
 <div id="postsContainer">
     <!-- ここに投稿内容が表示されます -->
 </div>
+
 <div id="popupForm" class="popup-form">
     <div class="popup-form-content">
         <span id="closeFormButton" class="close">&times;</span>
@@ -72,12 +29,12 @@
             <br><br>
             <label for="category">投稿カテゴリーを選択:</label>
             <select id="category" name="category" style="font-size: 140%" onchange="showHideFormElement()">
-                <option value="1">その他</option>
-		<option value="2">授業</option>
+                <option value="2">授業</option>
                 <option value="3">部活</option>
                 <option value="4">研究室</option>
                 <option value="5">就活</option>
-                <option value="6">感想受付</option>
+                <option value="1">その他</option>
+                <option value="6">イベント</option>
                 <option value="7">記事投稿</option>
             </select>
             <br><br>
@@ -89,6 +46,7 @@
         
     </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="../scripts/postPop.js"></script>
 <script>
@@ -96,11 +54,6 @@
     const limit = 20;
     const postsContainer = document.getElementById('postsContainer');
     let isLoading = false;
-
-
-
-    
-    
 
     function showHideFormElement() {
         var category = document.getElementById("category");
@@ -117,55 +70,42 @@
     }
 
     async function likePost(postID) {
-    try {
-        let response = await $.ajax({
-            url: "../../apk/likePost.php",
-            type: "POST",
-            data: { postID: postID },
-            dataType: "json"
-        });
-
-        if (response.error) {
-            alert(response.error);
-        } else {
+        try {
+            let response = await $.ajax({
+                url: "../../apk/likePost.php",
+                type: "POST",
+                data: { postID: postID }
+            });
             console.log(response);
             offset = 0;
             getPosts(true);
+        } catch (error) {
+            console.error("Error liking post:", error);
         }
-    } catch (error) {
-        console.error("Error liking post:", error);
     }
-}
-
 
     async function likeReply(replyID) {
-    try {
-        let response = await $.ajax({
-            url: "../../apk/likeReply.php",
-            type: "POST",
-            data: { repID: replyID },
-            dataType: "json"
-        });
-        
-        if (response.error) {
-            alert(response.error);
-        } else {
+        try {
+            let response = await $.ajax({
+                url: "../../apk/likeReply.php",
+                type: "POST",
+                data: { repID: replyID }
+            });
             console.log(response);
             offset = 0;
             getPosts(true);
+        } catch (error) {
+            console.error("Error liking reply:", error);
         }
-    } catch (error) {
-        console.error("Error liking reply:", error);
-    }
     }
 
     function getPosts(initialLoad = false) {
         if (isLoading) return;
         isLoading = true;
         $.ajax({
-            url: "../../apk/getPosts.php",
+            url: "../../apk/singlePost.php",
             type: "GET",
-            data: { offset: offset, limit: limit },
+            data: { iD: postID },
             success: function (response) {
                 if (initialLoad) {
                     postsContainer.innerHTML = response;
@@ -175,10 +115,7 @@
                 offset += limit;
                 isLoading = false;
 
-                // ハッシュタグを取得
-                // 過去の投稿にさらにタグを
-                // 追加しようとしてエラーになる。
-                setHashTag(); 
+                setHashTag();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Error getting posts:", textStatus, errorThrown);
@@ -187,80 +124,11 @@
         });
     }
 
-    function openReply(openID){
-        var className = "repAt"+openID;
-        var elements = document.getElementsByClassName(className);
-        
-        var className2 = "repOpenerAt"+openID;
-        var elements2 = document.getElementsByClassName(className2);
-         
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].style.display = 'block';
-        }
-        for (var i = 0; i < elements2.length; i++) {
-            elements2[i].style.display = 'none';
-        }
-    }
-
-    function filterByGenre() {
-        const genre = document.getElementById('serByCategory').value;
-        getPostsByGenre(genre);
-    }
-
-    function getPostsByGenre(genre) {
-        if (isLoading) return;
-        isLoading = true;
-        $.ajax({
-            url: "../../apk/getPosts.php",
-            type: "GET",
-            data: { genre: genre, offset: 0, limit: limit },
-            success: function(response) {
-                postsContainer.innerHTML = response;
-                offset = limit;
-                isLoading = false;
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("Error getting posts:", textStatus, errorThrown);
-                isLoading = false;
-            }
-        });
-    }
-
-    function searchPosts(keyword) {
-        if (isLoading) return;
-        isLoading = true;
-        $.ajax({
-            url: "../../apk/searchPosts.php",
-            type: "GET",
-            data: { q: keyword, offset: 0, limit: limit },
-            success: function(response) {
-                postsContainer.innerHTML = response;
-                offset = limit;
-                isLoading = false;
-
-                // ハッシュタグ取得
-                setHashTag();
-
-                scrollTop();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("Error searching posts:", textStatus, errorThrown);
-                isLoading = false;
-            }
-        });
-    }
 
     $(document).ready(function () {
+        getPosts(true); // 初回読み込み
 
-        // 初回読み込み
-        getPosts();
-
-        $(window).scroll(function() {
-            // 追加読み込み
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
-                getPosts();
-            }
-        });
+      
 
         $("#postForm").submit(function (event) {
             event.preventDefault(); // デフォルトのフォーム送信をキャンセル
@@ -336,8 +204,6 @@
     });
 
     function setHashTag() {
-
-
         console.log("HashFunction");
 
         // まだハッシュタグ化していない要素を取得
@@ -375,26 +241,8 @@
             // element.innerHTML = element.innerHTML.replace(/#(\S+)/g, '<a onclick="searchPosts(\'$1\');" class="tag">#$1</a>');
 
         });   
-
-
-        // 恐らくajaxで追加読み込みした投稿の位置は
-        // ブラウザバックで、追加投稿が読み込まれていないためエラーになるかも
-        // 最初に表示される上位20件については、問題なく起動する
-        scrollTo(0, scrollPosition);
-        scrollPosition = null;
     }
-
-
-    // タグクリックでページ上部に移動
-    function scrollTop() {
-        window.scroll({
-            top: 0,
-            behavior: "smooth",
-        });
-    }
-
 
 </script>
-
 </body>
 </html>
