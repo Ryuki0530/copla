@@ -50,7 +50,7 @@ body{
 
 .top{
     text-align: center;
-    height: 100px;
+    height: auto;
 }
 
 .search{
@@ -280,7 +280,6 @@ body {
   /* .tag:hover {
     color: #1e90ff;
 } */
-  }
 
   .likePostButton{
     border: none;
@@ -290,7 +289,7 @@ body {
   .likeReplyButton{
     border: none;
     background-color: white;
-
+  }
 
   img {
     object-fit: contain;
