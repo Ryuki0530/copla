@@ -48,7 +48,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="back-body">
         <!-- PC版 -->
         <!-- PC画面の半分以下, タブレットなら左部でたたむ -->
         <v-navigation-drawer 
@@ -64,45 +64,59 @@
                     <RouterLink to="/">
                         <div class="flex mouse topLogo">
                             <img src="../assets/logo.png" alt="">
-                            <v-list-item title="Copla" subtitle="for all students">
+                            <v-list-item title="Copla" subtitle="for all students at TDU">
                                 <!-- <img src="../assets/logo.png"> -->
                             </v-list-item>
                         </div>
                     </RouterLink>
                     <v-divider></v-divider>
                     <v-list-item link to="/" class="rounded-xl">
-                        <v-icon size="40">{{ mdiHome }}</v-icon>
-                        <v-title class="ml-5" v-if="!isLessHalf">HOME</v-title>
+                        <div class="flex">
+                            <v-icon size="40">{{ mdiHome }}</v-icon>
+                            <p class="ml-5 v-center flex" v-if="!isLessHalf">HOME</p>
+                        </div>
                     </v-list-item>
 
                     <v-list-item link to="" class="rounded-xl">
-                        <v-icon size="40">{{ mdiPencilOutline }}</v-icon>
-                        <v-title class="ml-5" v-if="!isLessHalf">Post</v-title>
+                        <div class="flex">
+                            <v-icon size="40">{{ mdiPencilOutline }}</v-icon>
+                            <p class="ml-5 v-center flex" v-if="!isLessHalf">Post</p>
+                        </div>
                     </v-list-item>
 
                     <v-list-item link to="/event" class="rounded-xl">
-                        <v-icon size="40">{{ mdiAlertDecagramOutline }}</v-icon>
-                        <v-title class="ml-5" v-if="!isLessHalf">Event</v-title>
+                        <div class="flex">
+                            <v-icon size="40">{{ mdiAlertDecagramOutline }}</v-icon>
+                            <p class="ml-5 v-center flex" v-if="!isLessHalf">Event</p>
+                        </div>
                     </v-list-item>
 
                     <v-list-item link to="/articles" class="rounded-xl">
-                        <v-icon size="40">{{ mdiFileDocumentEditOutline }}</v-icon>
-                        <v-title class="ml-5" v-if="!isLessHalf">Articles</v-title>
+                        <div class="flex">
+                            <v-icon size="40">{{ mdiFileDocumentEditOutline }}</v-icon>
+                            <p class="ml-5 v-center flex" v-if="!isLessHalf">Articles</p>
+                        </div>
                     </v-list-item>
 
                     <v-list-item link to="/mypage" class="rounded-xl">
-                        <v-icon size="40">{{ mdiAccountSchoolOutline }}</v-icon>
-                        <v-title class="ml-5" v-if="!isLessHalf">My page</v-title>
+                        <div class="flex">
+                            <v-icon size="40">{{ mdiAccountSchoolOutline }}</v-icon>
+                            <p class="ml-5 v-center flex" v-if="!isLessHalf">My page</p>
+                        </div>
                     </v-list-item>
 
                     <v-list-item link to="settings" class="rounded-xl">
-                        <v-icon size="40">{{ mdiCogOutline }}</v-icon>
-                        <v-title class="ml-5" v-if="!isLessHalf">Settings</v-title>
+                        <div class="flex">
+                            <v-icon size="40">{{ mdiCogOutline }}</v-icon>
+                            <p class="ml-5 v-center flex" v-if="!isLessHalf">Settings</p>
+                        </div>
                     </v-list-item>
 
-                    <v-list-item link to="/login" class="rounded-xl" @click="onLogin">
-                        <v-icon size="40">{{ loginFlag ? mdiLogin : mdiLogout }}</v-icon>
-                        <v-title class="ml-5" v-if="!isLessHalf">{{ loginFlag ? "Login" : "Logout" }}</v-title>
+                    <v-list-item link to="" class="rounded-xl" @click="onLogin">
+                        <div class="flex">
+                            <v-icon size="40">{{ loginFlag ? mdiLogin : mdiLogout }}</v-icon>
+                            <p class="ml-5 v-center flex" v-if="!isLessHalf">{{ loginFlag ? "Login" : "Logout" }}</p>
+                        </div>
                     </v-list-item>
                 </v-list-item>
             </v-list>
@@ -138,7 +152,7 @@
                     <v-icon size="40">{{ mdiCogOutline }}</v-icon>
                 </v-list-item>
     
-                <v-list-item link to="/login" title="" @click="onLogin" class="pa-0 ma-1 rounded-circle">
+                <v-list-item link to="" title="" @click="onLogin" class="pa-0 ma-1 rounded-circle">
                     <v-icon size="40">{{ loginFlag ? mdiLogin : mdiLogout }}</v-icon>
                 </v-list-item>
             </div>
@@ -147,8 +161,13 @@
 </template>
 
 <style scoped>
+
 .flex {
     display: flex;
+}
+
+.v-center {
+    align-items: center;
 }
 
 a {

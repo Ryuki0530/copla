@@ -20,7 +20,7 @@ import { mdiAccount } from '@mdi/js';
 
     <TrendMenu />
 
-    <v-main class="d-flex align-center justify-center" style="min-height: 300px;">
+    <v-main class="" style="min-height: 300px;">
       <div>
         <RouterView />
       </div>

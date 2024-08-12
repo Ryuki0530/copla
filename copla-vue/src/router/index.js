@@ -5,6 +5,7 @@ import EventPage from '@/components/EventPage.vue'
 import ArticlesContent from '@/components/ArticlesContent.vue'
 import MyPage from '@/components/MyPage.vue'
 import SettingsPage from '@/components/SettingsPage.vue'
+import FocusPost from '@/components/FocusPost.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,15 @@ const router = createRouter({
       path: "/settings",
       name: "settings",
       component: SettingsPage
+    },
+    {
+      path: "/post/:id",
+      // path: "/post",
+      name: "focusPost",
+      component: FocusPost,
+      props: (route) => ({
+        post: String(route.query.post)
+      }),
     }
   ]
 })
