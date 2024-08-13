@@ -4,7 +4,10 @@
     import { mdiHeartOutline } from "@mdi/js";
 
     const route = useRoute();
+
+    // クエリに渡されたidの値を取得
     console.log(route.params.id + "の投稿を抽出");
+
     const post = ref(null);
     const isLoading = ref(false);
 
@@ -38,6 +41,12 @@
 </script>
 
 <template>
+    <!-- 
+        冗長的です...
+        本来はPostContentからこのコンポーネントに該当する投稿をオブジェクトで
+        渡したかったのですが、上手くできなかったのでとりあえず投稿のidだけ
+        渡して、再度そのデータを取得する形になるかもしれません
+    -->
     <div>
         <h1>ID = {{ route.params.id }} の投稿と返信抽出イメージ</h1>
 

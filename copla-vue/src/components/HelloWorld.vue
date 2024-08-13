@@ -1,3 +1,7 @@
+<!-- 
+  このファイルは使用していません
+  削除したらjsconfig.jsonでエラーが出たので残しておきます
+-->
 <script setup>
 defineProps({
   msg: {

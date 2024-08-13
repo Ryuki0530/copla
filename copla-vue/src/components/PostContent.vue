@@ -12,9 +12,13 @@
     //     }
     // });
 
+    // propsを取得します
+    // postという名前で渡されたので、それを指定しています
     const props = defineProps(["post"]);
+
     const post = props.post;
     console.log(typeof(post));
+
     const router = useRouter();
 
     const dispNum = ref(1);
@@ -24,11 +28,14 @@
         dispNum.value = rep.length;
     }
 
+    // シングルポストのページに遷移
     const onFocus = () => {
         // router.push({ path: `/post/${ post.id }`, state: { postData: post }});
         router.push({ path: `/post/${ post.id }`, params: { id: post.id }});
     }
 
+    // textareaでEnterが押された時の処理
+    // (他の動作と干渉しないように用意しただけです)
     const handleEnterKey = (event) => {
         event.target.value += "\n";
     }
@@ -49,101 +56,100 @@
             v-ripple.stop
             :ripple="false"
         >
-            <!-- :to="{ path: `/post/${ post.id }`, params: { id: post.id }}"
-        > -->
-        <!-- :to="{ path: `/post/${ post.id }`, query: { post: post.content }}" -->
-        <!-- :to="{ path: `/post/${ post.id }`, params: { post: post }}" -->
+            <!-- 通常投稿 記事とはデザインを変える? タイトル有無とか -->  
+            <div>
+                <!-- ユーザ情報 -->
+                <v-card-item>
+                    <!-- ユーザのカラーコードまたはアイコン画像パスとか -->
+                    <div class="flex">
+                        <p class="icon" :style="{  }"></p>
+                        <p class="mt-2 font-weight-bold">
+                            {{ post.userName }}さん
+                        </p>
+                        <p class="mt-2 ml-2 sub-info">
+                            M-D h:m
+                        </p>
+                        <p class="mt-2 ml-auto sub-info">ジャンル</p>
+                    </div>
+                </v-card-item>
 
-            <!-- <router-link
-                :to="{ path: `/post/${ post.id }`, params: { id: post.id }}"
-            > -->
-                <!-- 通常投稿 記事とはデザインが違う タイトル有無とか -->  
-                <div>
+                <!-- 投稿本文 -->
+                <v-card-item class="pt-0">
+                    <v-card-text class="pt-0" style="white-space: pre-wrap;">
+                        {{ post.content }}
+                    </v-card-text>
+                </v-card-item>
+
+                <!-- リアクション いいねとか -->
+                <v-card-item class="pt-0">
+                    <div class="ml-3 flex">
+                        <v-icon size="20" @click.stop="" :ripple="false" color="red" class="on-good rounded-circle">{{ mdiHeartOutline }}</v-icon>
+                        <p>5</p>
+                    </div>
+                </v-card-item>
+
+                <!-- 返信フォーム -->
+                <v-card-item>
+                    <div class="flex">
+                        <v-textarea 
+                            placeholder="返信"
+                            @click.stop="" 
+                            @keydown.enter.stop.prevent="handleEnterKey"
+                            rows="1"
+                            auto-grow
+                            class="ml-2"
+                        ></v-textarea>
+                        <v-btn @click.stop="" class="rounded-xl ml-2" color="blue">Reply</v-btn>
+                    </div>
+                </v-card-item>
+            </div>           
+
+            <!-- 
+                v-ifは条件を満たすときだけ表示します 
+                falseの時はブラウザから要素ごと削除します
+                cssでdisplay:noneで非表示を使う場合は、開発者ツールで見えてしまいますが
+                v-ifは要素が無いので見えません
+            -->
+            <hr v-if="post.replies">
+
+            <!-- 返信 -->
+            <div v-for="(rep, index) in post.replies" :key="rep.id">
+                <!-- 
+                    表示件数を指定します
+                    初期値は1件で
+                    「さらに表示」を押すと、全て表示します
+                -->
+                <div v-if="index < dispNum">
                     <v-card-item>
-                        <!-- ユーザのカラーコードまたはアイコン画像パスとか -->
                         <div class="flex">
                             <p class="icon" :style="{  }"></p>
-                            <v-card-title>
-                                <!-- Card title {{ post.id }} -->
-                            </v-card-title>
-                
-                            <v-card-subtitle class="mt-2 font-weight-bold">
-                                <!-- {{ post.userName }}さん -->
-                            </v-card-subtitle>
                             <p class="mt-2 font-weight-bold">
-                                {{ post.userName }}さん
+                                {{ rep.userName }}さん
                             </p>
                             <p class="mt-2 ml-2 sub-info">
                                 M-D h:m
                             </p>
-                            <p class="mt-2 ml-auto sub-info">ジャンル</p>
                         </div>
                     </v-card-item>
-
+        
                     <v-card-item class="pt-0">
                         <v-card-text class="pt-0" style="white-space: pre-wrap;">
-                            {{ post.content }}
+                            {{ rep.content }}
                         </v-card-text>
                     </v-card-item>
 
                     <v-card-item class="pt-0">
                         <div class="ml-3 flex">
-                            <v-icon size="20" @click.stop="" :ripple="false" color="red" class="on-good rounded-circle">{{ mdiHeartOutline }}</v-icon>
+                            <v-icon size="20" @click.stop="" color="red" class="on-good rounded-circle">{{ mdiHeartOutline }}</v-icon>
                             <p>5</p>
                         </div>
                     </v-card-item>
-
-                    <v-card-item>
-                        <div class="flex">
-                            <v-textarea 
-                                placeholder="返信"
-                                @click.stop="" 
-                                @keydown.enter.stop.prevent="handleEnterKey"
-                                rows="1"
-                                auto-grow
-                                class="ml-2"
-                            ></v-textarea>
-                            <v-btn @click.stop="" class="rounded-xl ml-2" color="blue">Reply</v-btn>
-                        </div>
-                    </v-card-item>
-                </div>           
-    
-                <hr v-if="post.replies">
-    
-                <!-- 返信 -->
-                <div v-for="(rep, index) in post.replies" :key="rep.id">
-                    <div v-if="index < dispNum">
-                        <v-card-item>
-                            <div class="flex">
-                                <p class="icon" :style="{  }"></p>
-                                <p class="mt-2 font-weight-bold">
-                                    {{ rep.userName }}さん
-                                </p>
-                                <p class="mt-2 ml-2 sub-info">
-                                    M-D h:m
-                                </p>
-                            </div>
-                        </v-card-item>
-            
-                        <v-card-item class="pt-0">
-                            <v-card-text class="pt-0" style="white-space: pre-wrap;">
-                                {{ rep.content }}
-                            </v-card-text>
-                        </v-card-item>
-
-                        <v-card-item class="pt-0">
-                            <div class="ml-3 flex">
-                                <v-icon size="20" @click.stop="" color="red" class="on-good rounded-circle">{{ mdiHeartOutline }}</v-icon>
-                                <p>5</p>
-                            </div>
-                        </v-card-item>
-                    </div>
                 </div>
+            </div>
 
-                <hr v-if="dispNum <= 1 && post.replies">
-                <!-- .stopで親カードのonFocusを作動させずに返信を開ける -->
-                <p link v-if="dispNum <= 1 && post.replies" @click.stop="openReplies(post.replies)" class="top-layer mouse">さらに{{ post.replies.length - 1 }}件の返信</p>
-            <!-- </router-link> -->
+            <hr v-if="dispNum <= 1 && post.replies">
+            <!-- .stopで親カードのonFocusを作動させずに返信を開ける -->
+            <p link v-if="dispNum <= 1 && post.replies" @click.stop="openReplies(post.replies)" class="top-layer mouse">さらに{{ post.replies.length - 1 }}件の返信</p>
         </v-card>
     </div>
 </template>

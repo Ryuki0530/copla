@@ -62,6 +62,7 @@
             ] 
         });
 
+    // 投稿ボタンが押された場合
     const onSubmit = () => {
         if (chatContent.value !== "") {
             const post = {
@@ -97,6 +98,7 @@
             });
     }
 
+    // ジャンル選択
     const onSearch = (word) => {
         console.log(`${ word }の投稿を表示`);
 
@@ -107,6 +109,13 @@
 
 <template>
     <div>
+        <!-- 
+            vから始まるタグはvuetifyのやつです
+            あとはv-for, v-ifはvueの記法でJSが記述できるみたいな感じです
+            投稿とかは形式が同じなのでfor文を回してコード自体はスッキリさせています
+            @clickはv-onディレクティブというVueの属性で要素がクリックされた時に実行する関数などを指定
+            します。JSのonClick属性みたいな感じ? addEventListenerを使う事も減ると思います
+        -->
         <div>
             あとで見た目は整えます。とりあえず架空のD大学(D University)にしておきます
             <v-card
@@ -145,10 +154,19 @@
         <router-link :to="{ path: '/post/1', state: { post : samplePost}}">ID 1 OBJ リロードあり</router-link><br>
         <router-link :to="{ path: `/post/1`, query: { post: samplePost }}">ID 1 query</router-link> -->
 
+        <!-- 
+            for文で投稿を1件ずつ表示します
+            投稿のデザインの型はPostContentコンポーネントに作っているので
+            値を渡しています
+        -->
         <div v-for="post in postsImageData" :key="post.id">
             <!-- Flagで投稿コンポーネントと記事コンポーネントを区別する? -->
 
             <!-- 投稿の場合 -->
+            <!-- 
+                propという変数でコンポーネントに値を渡します
+                左辺に任意の変数名を指定し、右辺に今回のfor文で取得したpostを渡します
+            -->
             <PostContent
                 :key="post.id"
                 :post="post"

@@ -1,7 +1,12 @@
 // import './assets/main.css'
 
+// 必要なコンポーネントやメソッドを読み込みます
+
 import { createApp } from 'vue'
-import App from './App.vue'
+
+// App.vueをこのファイル内でAppの別名をつけて使用
+import App from './App.vue' 
+
 import router from './router'
 
 // Vuetify
@@ -13,6 +18,8 @@ import * as directives from "vuetify/directives"
 // icon
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg"
 
+// Vuetifyインスタンスを作成(フロントのフレームワーク)
+// Vuetifyのコンポーネント, カスタムディレクティブ, アイコン画像を使うための設定
 const vuetify = createVuetify({
     components,
     directives,
@@ -25,4 +32,8 @@ const vuetify = createVuetify({
     },
 })
 
+// Appコンポーネントをルートコンポーネントで
+// 新しいVueアプリを作成
+// vuetify, routerを使用することを宣言
+// HTMLのid=appの要素にVueを埋め込む(マウントする)
 const app = createApp(App).use(vuetify).use(router).mount("#app")

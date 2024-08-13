@@ -74,6 +74,11 @@
             <v-list>
                 <v-list-item title="">
                 <!-- <v-icon :icon="mdiAccount"></v-icon> -->
+                <!-- 
+                    to属性で移動するURLを指定します, 
+                    router/index.jsでルーティング処理されて必要なコンポーネントが
+                    App.vueの<RouterView />に挿入されます
+                -->
                     <RouterLink to="/">
                         <div class="flex mouse topLogo">
                             <img src="../assets/logo.png" alt="">
