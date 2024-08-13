@@ -24,14 +24,35 @@
     // データの取得はこんなイメージ?
     // 各投稿の中で返信を入れ子で持つ
     const postsImageData = ref([
+        { id: postId.value++, userName: "Taro", content: "Hello1\nこんにちは", replies: 
+            [
+                {id: repId.value++, userName: "Taro", content: "返信"}, 
+                {id: repId.value++, userName: "Shimizu", content: "返信2"},
+                {id: repId.value++, userName: "Kakimura", content: "返信3"}
+            ] 
+        },
+        { id: postId.value++, userName: "Yumi", content: "Hello2", replies:
+            [
+                {id: repId.value++, userName: "Tomita", content: "返信1"},
+                {id: repId.value++, userName: "Sasaki", content: "返信2"}
+            ]
+         },
+        { id: postId.value++, userName: "Kimura", content: "Good Morning 3" },
+
         { id: postId.value++, userName: "Taro", content: "Hello1", replies: 
             [
                 {id: repId.value++, userName: "Taro", content: "返信"}, 
-                {id: repId.value++, userName: "Shimizu", content: "返信2"}
+                {id: repId.value++, userName: "Shimizu", content: "返信2"},
+                {id: repId.value++, userName: "Kakimura", content: "返信3"}
             ] 
-        }
-        ,{ id: postId.value++, userName: "Yumi", content: "Hello2" }
-        ,{ id: postId.value++, userName: "Kimura", content: "Good Morning 3" }
+        },
+        { id: postId.value++, userName: "Taro", content: "Hello1", replies: 
+            [
+                {id: repId.value++, userName: "Taro", content: "返信"}, 
+                {id: repId.value++, userName: "Shimizu", content: "返信2"},
+                {id: repId.value++, userName: "Kakimura", content: "返信3"}
+            ] 
+        },
     ]);
 
     const samplePost = ref({ id: postId.value++, userName: "Taro", content: "Hello1", replies: 
@@ -47,7 +68,7 @@
                 id: postId.value++,
                 userName: "Taro Yamada",
                 content: chatContent.value,
-                replies: []
+                replies: null
             }
 
             console.log(post);
@@ -80,7 +101,7 @@
 <template>
     <div>
         <div>
-            あとで見た目は整えます
+            あとで見た目は整えます。とりあえず架空のD大学(D University)にしておきます
             <v-card
                 class="ma-5 my-2"
                 elevation="2"
@@ -90,10 +111,10 @@
             </v-card>
         </div>
 
-        <router-link to="/articles">これはロード無しで飛べる</router-link><br>
+        <!-- <router-link to="/articles">これはロード無しで飛べる</router-link><br>
         <router-link to="/post/1">これもいけるID 1　でも他のサイドバーが効かなくなる FocusPostでroute周りをコメントアウトしたら解消</router-link><br>
         <router-link :to="{ path: '/post/1', state: { post : samplePost}}">ID 1 OBJ リロードあり</router-link><br>
-        <router-link :to="{ path: `/post/1`, query: { post: samplePost }}">ID 1 query</router-link>
+        <router-link :to="{ path: `/post/1`, query: { post: samplePost }}">ID 1 query</router-link> -->
 
         <div v-for="post in postsImageData" :key="post.id">
             <!-- Flagで投稿コンポーネントと記事コンポーネントを区別する? -->

@@ -6,6 +6,8 @@ import ArticlesContent from '@/components/ArticlesContent.vue'
 import MyPage from '@/components/MyPage.vue'
 import SettingsPage from '@/components/SettingsPage.vue'
 import FocusPost from '@/components/FocusPost.vue'
+import NotFound from '@/components/NotFound.vue'
+import BusPage from '@/components/BusPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +21,11 @@ const router = createRouter({
       path: "/event",
       name: "event",
       component: EventPage
+    },
+    {
+      path: "/bus",
+      name: "bus",
+      component: BusPage
     },
     {
       path: '/articles',
@@ -47,6 +54,10 @@ const router = createRouter({
       props: (route) => ({
         post: String(route.query.post)
       }),
+    },
+    {
+      path: `/:pathMatch(.*)*`,
+      component: NotFound
     }
   ]
 })
