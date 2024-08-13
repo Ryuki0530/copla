@@ -13,7 +13,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 .center {
     text-align: center;
 }

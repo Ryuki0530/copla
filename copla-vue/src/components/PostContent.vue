@@ -43,11 +43,11 @@
     <div>
         <!-- {{ post }} -->
         <v-card
-            class="ma-5 my-2"
+            class="ma-5 my-5"
             elevation="2"
-            @click="onFocus"
+            @click.stop="onFocus"
             v-ripple.stop
-            link
+            :ripple="false"
         >
             <!-- :to="{ path: `/post/${ post.id }`, params: { id: post.id }}"
         > -->
@@ -76,6 +76,7 @@
                             <p class="mt-2 ml-2 sub-info">
                                 M-D h:m
                             </p>
+                            <p class="mt-2 ml-auto sub-info">ジャンル</p>
                         </div>
                     </v-card-item>
 
@@ -87,7 +88,7 @@
 
                     <v-card-item class="pt-0">
                         <div class="ml-3 flex">
-                            <v-icon size="20" @click.stop="" color="red" class="on-good rounded-circle">{{ mdiHeartOutline }}</v-icon>
+                            <v-icon size="20" @click.stop="" :ripple="false" color="red" class="on-good rounded-circle">{{ mdiHeartOutline }}</v-icon>
                             <p>5</p>
                         </div>
                     </v-card-item>
@@ -147,7 +148,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 .mouse:hover {
     background-color: rgb(238, 255, 162);
 }

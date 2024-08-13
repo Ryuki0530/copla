@@ -1,13 +1,39 @@
 <script setup>
-import { ref } from "vue";
+import { ref, provide, watch, onMounted } from "vue";
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 import SideBar from './components/SideBar.vue';
 import TrendMenu from "./components/TrendMenu.vue";
+
+import { useDisplay } from 'vuetify/lib/framework.mjs';
 
 // 使用したいアイコンをロード
 import { mdiAccount } from '@mdi/js';
 
+const device = useDisplay();
+
+// PC画面の半分以下か判定
+const isLessHalf = ref(device.smAndDown.value);
+
+// スマホ画面か判定
+const isMobile = ref(device.xs.value);
+
+onMounted(() => {
+  isLessHalf.value = device.smAndDown.value;
+  isMobile.value = device.xs.value;
+})
+
+watch(device.name, () => {
+        isMobile.value = device.xs.value;
+        isLessHalf.value = device.smAndDown.value;
+
+        console.log(isMobile.value);
+        console.log("xs - " + device.xs.value);
+        // console.log("isMobile : " + isMobile.value + "Half : " + isLessHalf.value);
+    })
+
+provide("device", device);
+provide("isLessHalf", isLessHalf);
+provide("isMobile", isMobile);
 </script>
 
 <template>
@@ -20,7 +46,7 @@ import { mdiAccount } from '@mdi/js';
 
     <TrendMenu />
 
-    <v-main class="" style="min-height: 300px;">
+    <v-main class="align-center justify-center" style="min-height: 300px;">
       <div>
         <RouterView />
       </div>
@@ -91,6 +117,7 @@ nav a:first-of-type {
   }
 }
 </style> -->
+
 <style scoped>
 
 </style>

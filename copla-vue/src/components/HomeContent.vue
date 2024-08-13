@@ -96,6 +96,13 @@
                 console.error(err);
             });
     }
+
+    const onSearch = (word) => {
+        console.log(`${ word }の投稿を表示`);
+
+        // axiosでリクエスト送る?
+    }
+
 </script>
 
 <template>
@@ -106,8 +113,30 @@
                 class="ma-5 my-2"
                 elevation="2"
             >
-                <input type="text" v-model="chatContent" placeholder="投稿内容を入力">
-                <v-btn @click="onSubmit">Post</v-btn>
+                <input type="text" v-model="chatContent" placeholder="検索" class="input">
+            </v-card>
+
+            <div class="trend flex ml-5 mt-3 mb-3">
+                <h4>今のトレンド</h4>
+                <p class="ml-5 tag">#研究室</p>
+                <p class="ml-5 tag">#ランチ</p>
+                <p class="ml-5 tag">#期末</p>
+            </div>
+
+            <v-card>
+                <v-tabs
+                    bg-color="deep-purple-darken-4"
+                    center-active
+                >
+                <v-tab @click="onSearch('ALL')">ALL</v-tab>
+                <v-tab @click="onSearch('授業')">授業</v-tab>
+                <v-tab @click="onSearch('サークル')">サークル</v-tab>
+                <v-tab @click="onSearch('研究室')">研究室</v-tab>
+                <v-tab @click="onSearch('就活')">就活</v-tab>
+                <v-tab @click="onSearch('その他')">その他</v-tab>
+                <v-tab @click="onSearch('イベント')">イベント</v-tab>
+                <v-tab @click="onSearch('記事')">記事</v-tab>
+                </v-tabs>
             </v-card>
         </div>
 
@@ -130,5 +159,17 @@
     </div>
 </template>
 
-<style>
+<style scoped>
+.flex {
+    display: flex;
+}
+
+input {
+    width: 100%;
+}
+
+.tag {
+    color: blue;
+    cursor: pointer;
+}
 </style>

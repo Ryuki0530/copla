@@ -1,5 +1,6 @@
 <script setup>
-
+  import { inject } from 'vue';
+  const isMobile = inject("isMobile");
 </script>
 
 <template>
@@ -7,6 +8,7 @@
         <v-navigation-drawer 
           location="right" 
           :width="400"
+          v-if="!isMobile"
         >
           <v-list>
             <v-list-item title="">
@@ -17,5 +19,5 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 </style>

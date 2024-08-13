@@ -13,39 +13,50 @@
             ,mdiBusClock
             } from '@mdi/js';
 
-    import { ref, computed, onMounted, watch } from 'vue';
+    import { ref, computed, onMounted, watch, inject } from 'vue';
     import { RouterLink, RouterView } from 'vue-router'
     import { useDisplay } from 'vuetify/lib/framework.mjs';
     
     const loginFlag = ref(true);
 
     // 画面サイズを監視
-    const device = useDisplay();
+    // const device = inject("device");
 
     // PC画面の半分以下か判定
-    const isLessHalf = ref(false);
+    const isLessHalf = inject("isLessHalf");
     // スマホ画面か判定
-    const isMobile = ref(false);
+    const isMobile = inject("isMobile");
+
+    const postFormFlag = ref(false);
+    const postDialog = ref(false);
+
+    const chatContent = ref("");
 
     // ログイン処理
     const onLogin = () => {
         loginFlag.value = !loginFlag.value;
+
+        // isMobile.value = device.xs.value;
+        // isLessHalf.value = device.smAndDown.value;
     }
 
     // リロード時に実行
     onMounted(() => {
-        console.log(device);
-        isMobile.value = device.xs.value;
-        isLessHalf.value = device.smAndDown.value;
+        // console.log(device);
     })
 
     // 画面サイズ監視
-    watch(device.name, () => {
-        isMobile.value = device.xs.value;
-        isLessHalf.value = device.smAndDown.value;
+    // watch(device.name, () => {
+    //     isMobile.value = device.xs.value;
+    //     isLessHalf.value = device.smAndDown.value;
 
-        console.log("isMobile : " + isMobile.value + "Half : " + isLessHalf.value);
-    })
+    //     console.log("isMobile : " + isMobile.value + "Half : " + isLessHalf.value);
+    // })
+
+    const onPostForm = () => {
+        console.log("open post form");
+        postFormFlag.value = true;
+    }
 
 </script>
 
@@ -71,7 +82,9 @@
                             </v-list-item>
                         </div>
                     </RouterLink>
+
                     <v-divider></v-divider>
+
                     <v-list-item link to="/" class="rounded-xl">
                         <div class="flex">
                             <v-icon size="40">{{ mdiHome }}</v-icon>
@@ -79,7 +92,7 @@
                         </div>
                     </v-list-item>
 
-                    <v-list-item link to="" class="rounded-xl">
+                    <v-list-item link to="" class="rounded-xl" @click="postDialog = true">
                         <div class="flex">
                             <v-icon size="40">{{ mdiPencilOutline }}</v-icon>
                             <p class="ml-5 v-center flex" v-if="!isLessHalf">投稿</p>
@@ -135,6 +148,41 @@
             </v-list>
         </v-navigation-drawer>
 
+        <!-- ブラウザでオーバレイで包まれるクラスにpost-formを適用したい -->
+        <!-- <div class="text-center pa-4" :width="300" style="position: fixed;">
+
+        </div> -->
+
+        <v-dialog
+            v-model="postDialog"
+        >
+            <div class="flex" style="justify-content: center;">
+                <v-card
+                    max-width="800px"
+                    class="w-100p"
+                >
+                    <!-- focusでダイアログ開いたらフォームにカーソル当てた方がいいかも -->
+                    <v-card-text>
+                        <v-textarea variant="outlined" placeholder="投稿内容" class="area" v-model.trim="chatContent"></v-textarea>
+                    </v-card-text>
+
+                    <div class="flex end pa-4">
+                        <v-btn
+                            text="閉じる"
+                            @click="postDialog = false"
+                        ></v-btn>
+    
+                        <v-btn
+                            text="送信"
+                            @click="postDialog = false; "
+                            class="ml-5"
+                        ></v-btn>
+                        <!-- @click="onPost(); postDialog = false; " -->
+                    </div>
+                </v-card>
+            </div>
+        </v-dialog>
+
         <!-- スマホ版 -->
         <!-- アイコンは多くて6つまで! -->
         <!-- <v-app-bar height="40" v-if="isMobile">
@@ -152,7 +200,7 @@
                     <v-icon size="40">{{ mdiHome }}</v-icon>
                 </v-list-item>
 
-                <v-list-item link to="" title="" class="pa-0 ma-1 rounded-circle">
+                <v-list-item link to="" title="" class="pa-0 ma-1 rounded-circle" @click="postDialog = true">
                     <v-icon size="40">{{ mdiPencilOutline }}</v-icon>
                 </v-list-item>
 
@@ -193,6 +241,24 @@
     display: flex;
 }
 
+.w-100p {
+    width: 100%;
+}
+
+.end {
+    justify-content: end;
+}
+
+.post-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.pc-center {
+    margin-left: 19.2%;
+}
+
 .v-center {
     align-items: center;
 }
@@ -208,6 +274,7 @@ a {
 
 .mouse:hover {
     /* background: rgb(240, 240, 240); */
+    background: white;
     cursor: pointer;
     /* transition: 0.2s; */
 }

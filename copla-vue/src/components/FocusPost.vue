@@ -127,7 +127,15 @@
     </div>
 </template>
 
-<style>
+<style scoped>
+.flex {
+    display: flex;
+}
+
+.on-good:hover {
+    background-color: rgb(249, 181, 181);
+}
+
 .icon {
   width: 35px;
   height: 35px;
